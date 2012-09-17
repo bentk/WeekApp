@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,7 +21,6 @@ namespace WeekNumber.Data
 
         public List<DateTime> Days { get; private set; }
     }
-
 
     /// <summary>
     /// Creates a collection of groups and items with hard-coded content.
