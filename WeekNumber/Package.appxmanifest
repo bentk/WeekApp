@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="c78948b2-3d55-44c2-8f50-07117c952945" Publisher="CN=ladmin" Version="1.0.0.0" />
+  <Properties>
+    <DisplayName>WeekNumber</DisplayName>
+    <PublisherDisplayName>bentapps</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.0</OSMinVersion>
+    <OSMaxVersionTested>6.2.0</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="en" />
+    <Resource Language="no" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WeekNumber.App">
+      <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="WeekNumber" ForegroundText="light" BackgroundColor="#808080">
+        <DefaultTile ShortName="Week Number" ShowName="logoOnly" WideLogo="Assets\WideLogo.png" />
+        <SplashScreen Image="Assets\SplashScreen.png" />
+        <InitialRotationPreference>
+          <Rotation Preference="portrait" />
+          <Rotation Preference="landscape" />
+          <Rotation Preference="portraitFlipped" />
+          <Rotation Preference="landscapeFlipped" />
+        </InitialRotationPreference>
+      </VisualElements>
+      <Extensions>
+        <Extension Category="windows.search" />
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+  </Capabilities>
+</Package>
