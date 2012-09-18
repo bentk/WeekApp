@@ -131,6 +131,9 @@
     <None Include="WeekNumber_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Logo2.png" />
+    <Content Include="Assets\logo_24x24.png" />
+    <Content Include="Assets\SplashScreen2.png" />
     <Content Include="Assets\WideLogo.png" />
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />

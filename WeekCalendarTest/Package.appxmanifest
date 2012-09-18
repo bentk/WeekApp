@@ -32,7 +32,7 @@
             Description="vstest.executionengine.App"
             ForegroundText="light"
             BackgroundColor="#0084FF">
-          <!--SplashScreen Image="Images\UnitTestSplashScreen.png" /-->
+          <SplashScreen Image="Images\UnitTestSplashScreen.png" />
         </VisualElements>
     </Application>
 
@@ -46,7 +46,7 @@
             Description="vstest.executionengine.x86.App"
             ForegroundText="light"
             BackgroundColor="#0084FF">
-          <!--SplashScreen Image="Images\UnitTestSplashScreen.png" /-->
+          <SplashScreen Image="Images\UnitTestSplashScreen.png" />
         </VisualElements>
     </Application>
   </Applications>

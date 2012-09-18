@@ -3,6 +3,7 @@ using WeekNumber.Common;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.System.UserProfile;
 using Windows.UI.Notifications;
@@ -45,6 +46,7 @@ namespace WeekNumber
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+            //TileUpdateManager.CreateTileUpdaterForApplication().
             // Do not repeat app initialization when already running, just ensure that
             // the window is active
             if (args.PreviousExecutionState == ApplicationExecutionState.Running)
@@ -69,28 +71,21 @@ namespace WeekNumber
                 var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
                 var week = new Week(culture);
                 
-               
-                var tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquareBlock);
-                
-                var tileTextAttributes = tileXml.GetElementsByTagName("text");
-                tileTextAttributes[0].InnerText = week.GetWeekNumberFromDate(DateTime.Today).ToString();
-                tileTextAttributes[1].InnerText = week.DayAndMonthStringFromDate(DateTime.Today);
-                var scheduledTile = new ScheduledTileNotification(tileXml, DateTime.Now.AddSeconds(1));
-                
-                var tileXmlWide = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWideBlockAndText02);
-                var tileTextAttributesWide = tileXmlWide.GetElementsByTagName("text");
-                tileTextAttributesWide[0].InnerText = week.GetWeekNumberFromDate(DateTime.Today).ToString();
-                tileTextAttributesWide[1].InnerText = week.DayAndMonthStringFromDate(DateTime.Today);
-                var scheduledTileWide = new ScheduledTileNotification(tileXml, DateTime.Now.AddSeconds(1));
-                
                 var t = TileUpdateManager.CreateTileUpdaterForApplication();
-                
-                t.AddToSchedule(scheduledTile);
-                t.AddToSchedule(scheduledTileWide);
-            
-                t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileSquareBlock.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
 
-                t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileWideBlockAndText02.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
+                var xmlString = string.Format(@"<tile><visual branding='logo'>
+                <binding template='TileWideBlockAndText02'><text id='1'>{0}</text><text id='2'>{1}</text><text id='3'></text></binding>
+                <binding template='TileSquareBlock'><text id='1'>{1}</text><text id='2'>{2}</text></binding></visual></tile>",
+                              week.GetYearMonthAndDayFormatted(DateTime.Today),
+                              week.GetWeekNumberFromDate(DateTime.Today).ToString(),
+                              week.DayAndMonthStringFromDate(DateTime.Today));
+                var xml = new XmlDocument();
+                xml.LoadXml(xmlString);
+                var scheduledTileWide = new ScheduledTileNotification(xml, DateTime.Now.AddSeconds(1));
+                t.AddToSchedule(scheduledTileWide);
+
+                    t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileWideBlockAndText02.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
+
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter

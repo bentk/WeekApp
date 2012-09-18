@@ -35,5 +35,6 @@ namespace WeekCalendarTest
             Assert.AreEqual(DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek, daysInCurrentWeek[0].DayOfWeek);
         }
 
+
     }
 }
