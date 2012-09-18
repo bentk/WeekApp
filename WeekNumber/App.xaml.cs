@@ -1,5 +1,5 @@
-﻿using WeekNumber.Common;
-
+﻿using WeekCalendar;
+using WeekNumber.Common;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -9,6 +9,7 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+
 
 // The Grid App template is documented at http://go.microsoft.com/fwlink/?LinkId=234226
 
@@ -66,10 +67,30 @@ namespace WeekNumber
             if (rootFrame.Content == null)
             {
                 var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+                var week = new Week(culture);
+                
+               
+                var tileXml = TileUpdateManager.GetTemplateContent(TileTemplateType.TileSquareBlock);
+                
+                var tileTextAttributes = tileXml.GetElementsByTagName("text");
+                tileTextAttributes[0].InnerText = week.GetWeekNumberFromDate(DateTime.Today).ToString();
+                tileTextAttributes[1].InnerText = week.DayAndMonthStringFromDate(DateTime.Today);
+                var scheduledTile = new ScheduledTileNotification(tileXml, DateTime.Now.AddSeconds(1));
+                
+                var tileXmlWide = TileUpdateManager.GetTemplateContent(TileTemplateType.TileWideBlockAndText02);
+                var tileTextAttributesWide = tileXmlWide.GetElementsByTagName("text");
+                tileTextAttributesWide[0].InnerText = week.GetWeekNumberFromDate(DateTime.Today).ToString();
+                tileTextAttributesWide[1].InnerText = week.DayAndMonthStringFromDate(DateTime.Today);
+                var scheduledTileWide = new ScheduledTileNotification(tileXml, DateTime.Now.AddSeconds(1));
+                
                 var t = TileUpdateManager.CreateTileUpdaterForApplication();
-                t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileWideBlockAndText02.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
+                
+                t.AddToSchedule(scheduledTile);
+                t.AddToSchedule(scheduledTileWide);
+            
                 t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileSquareBlock.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
-      
+
+                t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileWideBlockAndText02.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter

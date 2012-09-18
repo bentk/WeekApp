@@ -13,7 +13,7 @@ namespace WeekNumber.Data
 
         public Week(DateTime day)
         {
-            var s = new WeekCalendar.WeekCalendar();
+            var s = new WeekCalendar.Week();
             WeekNumber = s.GetWeekNumberFromDate(day);
             Days = s.GetDaysInCurrentWeek(day);
             Year = day.Year;
@@ -33,7 +33,7 @@ namespace WeekNumber.Data
 
         public ObservableCollection<Week> AllWeeks
         {
-            get { return this._allWeeks; }
+            get { return _allWeeks; }
         }
 
         //public static int currentWeek

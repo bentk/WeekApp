@@ -17,7 +17,7 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WeekNumber.App">
       <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="WeekNumber" ForegroundText="light" BackgroundColor="#808080">
-        <DefaultTile ShortName="Week Number" ShowName="logoOnly" WideLogo="Assets\WideLogo.png" />
+        <DefaultTile ShortName="Week Number" ShowName="allLogos" WideLogo="Assets\WideLogo.png" />
         <SplashScreen Image="Assets\SplashScreen.png" />
         <InitialRotationPreference>
           <Rotation Preference="portrait" />
