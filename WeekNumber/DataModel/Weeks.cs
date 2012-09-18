@@ -1,25 +1,59 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Windows.System.UserProfile;
 
 namespace WeekNumber.Data
 {
     [Windows.Foundation.Metadata.WebHostHidden]
-    public class Week : Common.BindableBase
+    public class BindableWeek : Common.BindableBase
     {
         public int WeekNumber { get; private set; }
         public int Year { get; private set; }
-
-        public Week(DateTime day)
+        public bool IsCurrentWeek { get
         {
-            var s = new WeekCalendar.Week();
+            var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+            return WeekNumber == new WeekCalendar.Week(culture).GetWeekNumberFromDate(DateTime.Today);
+        } }
+        public BindableWeek(DateTime day)
+        {
+            var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+            var s = new WeekCalendar.Week(culture);
             WeekNumber = s.GetWeekNumberFromDate(day);
-            Days = s.GetDaysInCurrentWeek(day);
+            Days = s.GetDaysInCurrentWeek(day).Select(d=> new BindableDay(d)).ToList();
             Year = day.Year;
         }
 
-        public List<DateTime> Days { get; private set; }
+        public List<BindableDay> Days { get; private set; }
+    }
+
+    public class BindableDay : Common.BindableBase
+    {
+        public bool IsToday { get { return DateTime.Today.CompareTo(_dateTime) == 0; } }
+        public string Name{ get
+        {
+            var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+            var dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
+            return dateTimeFormat.Calendar.GetDayOfWeek(_dateTime).ToString();
+        }
+        }
+
+        public string DayNumber
+        {
+            get { return _dateTime.Day.ToString(); }
+        }
+
+        private DateTime _dateTime;
+        public BindableDay(DateTime dateTime)
+        {
+            _dateTime = dateTime;
+        }
+        //public string NameOfDay
+        //{
+        //    return 
+        //}
     }
 
     /// <summary>
@@ -29,30 +63,30 @@ namespace WeekNumber.Data
     {
         private static SampleDataSource _sampleDataSource = new SampleDataSource();
 
-        private ObservableCollection<Week> _allWeeks = new ObservableCollection<Week>();
+        private ObservableCollection<BindableWeek> _allWeeks = new ObservableCollection<BindableWeek>();
 
-        public ObservableCollection<Week> AllWeeks
+        public ObservableCollection<BindableWeek> AllWeeks
         {
             get { return _allWeeks; }
         }
 
         //public static int currentWeek
-        public static IEnumerable<Week> GetAllWeeks(int year)
+        public static IEnumerable<BindableWeek> GetAllWeeks(int year)
         {
             return _sampleDataSource.AllWeeks.Where(w=>w.Year == year);
         }
 
-        public static Week GetWeek(int weekNumber)
+        public static BindableWeek GetWeek(int weekNumber)
         {
             // Simple linear search is acceptable for small data sets
             var matches = _sampleDataSource.AllWeeks.Where(week => week.WeekNumber.Equals(weekNumber));
-            var enumerable = matches as Week[] ?? matches.ToArray();
+            var enumerable = matches as BindableWeek[] ?? matches.ToArray();
             if (enumerable.Count() == 1)
                 return enumerable.First();
             return null;
         }
 
-        public static Week GetItem(string uniqueId)
+        public static BindableWeek GetItem(string uniqueId)
         {
             // Simple linear search is acceptable for small data sets
             //  var matches = _sampleDataSource.AllWeeks.SelectMany(group => group.Items).Where((item) => item.UniqueId.Equals(uniqueId));
@@ -65,12 +99,12 @@ namespace WeekNumber.Data
             var startDate = new DateTime(DateTime.Today.Year, 1, 1);
             while (startDate.Year == DateTime.Today.Year)
             {
-                AllWeeks.Add(new Week(startDate));
+                AllWeeks.Add(new BindableWeek(startDate));
                 startDate = startDate.AddDays(7);
             }
         }
-        private static Week _thisWeek = new Week(DateTime.Today);
-        public static Week ThisWeek{ get { return _thisWeek; }
+        private static BindableWeek _thisBindableWeek = new BindableWeek(DateTime.Today);
+        public static BindableWeek ThisBindableWeek{ get { return _thisBindableWeek; }
 
         }
     }

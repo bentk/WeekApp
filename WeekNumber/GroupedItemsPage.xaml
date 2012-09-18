@@ -9,11 +9,34 @@
     xmlns:common="using:WeekNumber.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:Converters="using:WeekNumber.Converters" mc:Ignorable="d">
 
     <Page.Resources>
-        <CollectionViewSource x:Name="thisWeekViewSource" Source="{Binding Items}" d:Source="{Binding ThisWeek.Days, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
+        <CollectionViewSource x:Name="thisWeekViewSource" Source="{Binding Items}" d:Source="{Binding ThisBindableWeek.Days, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
         <CollectionViewSource x:Name="weeksInYearViewSource" Source="{Binding Groups}" d:Source="{Binding AllWeeks, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
+        <Converters:CurrentWeekColorConverter x:Key="CurrentWeekColorConverter"/>
+<DataTemplate x:Key="Week250x250ItemTemplate">
+            <Grid HorizontalAlignment="Left" Width="150" Height="150">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                    <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+                </Border>
+                <StackPanel VerticalAlignment="Bottom">
+                    <TextBlock Text="{Binding WeekNumber}" Foreground="{Binding IsCurrentWeek, Converter={StaticResource CurrentWeekColorConverter}}" Style="{StaticResource HeaderTextStyle}" Height="60" Margin="15,0,15,0"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+<!-- Grid-appropriate 250 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
+        <DataTemplate x:Key="Standard250x250ItemTemplate">
+            <Grid HorizontalAlignment="Left" Width="250" Height="250">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                    <TextBlock Text="{Binding DayNumber}" Foreground="{Binding IsToday, Converter={StaticResource CurrentWeekColorConverter}}"/>
+                </Border>
+                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
+                    <TextBlock Text="{Binding Date}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" Margin="15,0,15,10"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <!--
@@ -34,7 +57,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Grid.Column="1" Style="{StaticResource PageHeaderTextStyle}"/>
+            <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}" Grid.Column="1" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
 <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="semanticZoom_ViewChangeCompleted_1">
             <SemanticZoom.ZoomedOutView>
@@ -70,7 +93,7 @@
                             </GroupStyle.HeaderTemplate>
                             <GroupStyle.Panel>
                                 <ItemsPanelTemplate>
-                                    <VariableSizedWrapGrid Orientation="Horizontal" Margin="0,0,80,0"/>
+                                    <VariableSizedWrapGrid Orientation="Horizontal" Background="Red" Margin="0,0,80,0"/>
                                 </ItemsPanelTemplate>
                             </GroupStyle.Panel>
                         </GroupStyle>

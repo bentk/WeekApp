@@ -43,7 +43,7 @@ namespace WeekNumber
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
             //var item = SampleDataSource.GetItem((String)navigationParameter);
             //this.DefaultViewModel["Weeks"] = item.Weeks;
-            //this.DefaultViewModel["Items"] = item.Week.Items;
+            //this.DefaultViewModel["Items"] = item.BindableWeek.Items;
         }
 
         /// <summary>

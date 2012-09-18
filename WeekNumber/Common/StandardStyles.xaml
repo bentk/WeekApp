@@ -10,7 +10,7 @@
 
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Converters="using:WeekNumber.Converters">
 
     <!-- Non-brush values that vary across themes -->
     
@@ -819,28 +819,7 @@
 
     <!-- Item templates -->
 
-    <!-- Grid-appropriate 250 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
-    <DataTemplate x:Key="Standard250x250ItemTemplate">
-        <Grid HorizontalAlignment="Left" Width="250" Height="250">
-            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                <TextBlock Text="{Binding Date.ToShortDateFormat}"/>
-            </Border>
-            <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
-                <TextBlock Text="{Binding DayOfWeek}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
-                <TextBlock Text="{Binding Date}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap" Margin="15,0,15,10"/>
-            </StackPanel>
-        </Grid>
-    </DataTemplate>
-    <DataTemplate x:Key="Week250x250ItemTemplate">
-        <Grid HorizontalAlignment="Left" Width="250" Height="250">
-            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                <Image Source="{Binding Image}" Stretch="UniformToFill"/>
-            </Border>
-            <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
-                <TextBlock Text="{Binding WeekNumber}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource HeaderTextStyle}" Height="60" Margin="15,0,15,0"/>
-            </StackPanel>
-        </Grid>
-    </DataTemplate>
+
 
     <!-- Grid-appropriate 500 by 130 pixel item template as seen in the GroupDetailPage -->
     <DataTemplate x:Key="Standard500x130ItemTemplate">  
@@ -850,10 +829,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                <TextBlock Text="{Binding Day}" Style="{StaticResource HeaderTextStyle}" ></TextBlock>
+                <TextBlock Text="{Binding DayNumber}" Style="{StaticResource HeaderTextStyle}" ></TextBlock>
             </Border>
             <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
-                <TextBlock Text="{Binding DayOfWeek}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
                 <TextBlock Text="{Binding Subtitle}" Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
                 <TextBlock Text="{Binding Description}" Style="{StaticResource BodyTextStyle}" MaxHeight="60"/>
             </StackPanel>

@@ -2,7 +2,7 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
   <Identity Name="c78948b2-3d55-44c2-8f50-07117c952945" Publisher="CN=ladmin" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>WeekNumber</DisplayName>
+    <DisplayName>BindableWeekNumber</DisplayName>
     <PublisherDisplayName>bentapps</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,9 +15,9 @@
     <Resource Language="no" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WeekNumber.App">
-      <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="WeekNumber" ForegroundText="light" BackgroundColor="#777777">
-        <DefaultTile ShowName="noLogos" WideLogo="Assets\WideLogo.png" ShortName="Week Number" />
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="BindableWeekNumber.App">
+      <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="This application shows the Number of the Current Week." ForegroundText="light" BackgroundColor="#888888">
+        <DefaultTile ShowName="noLogos" WideLogo="Assets\WideLogo.png" ShortName="BindableWeek Number" />
         <SplashScreen Image="Assets\SplashScreen2.png" />
         <InitialRotationPreference>
           <Rotation Preference="portrait" />

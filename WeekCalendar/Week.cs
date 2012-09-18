@@ -8,13 +8,8 @@ namespace WeekCalendar
     {
         private DateTimeFormatInfo _dateTimeFormat;
 
-        public Week()
-        {
-            _dateTimeFormat = DateTimeFormatInfo.CurrentInfo;
-        }
-
         public Week(string culture)
-        {
+        {   
             _dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
         }
 
@@ -39,7 +34,7 @@ namespace WeekCalendar
                 firstDayOfThisWeekDate = firstDayOfThisWeekDate.AddDays(-1);
                 dayOfWeek = _dateTimeFormat.Calendar.GetDayOfWeek(firstDayOfThisWeekDate);
             }
-
+            
             var returnValues = new List<DateTime>(7);
             for (var i = 0; i < 7; i++)
             {

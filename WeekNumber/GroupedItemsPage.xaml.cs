@@ -40,8 +40,9 @@ namespace WeekNumber
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
-            this.DefaultViewModel["Items"] = SampleDataSource.GetWeek(SampleDataSource.ThisWeek.WeekNumber).Days;
-            this.DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks(SampleDataSource.ThisWeek.Year);
+            this.DefaultViewModel["Items"] = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber).Days;
+            this.DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks(SampleDataSource.ThisBindableWeek.Year);
+            this.DefaultViewModel["WeekNumber"] = SampleDataSource.ThisBindableWeek.WeekNumber;
         }
             
         /// <summary>
