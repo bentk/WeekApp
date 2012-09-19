@@ -9,74 +9,37 @@
     xmlns:common="using:WeekNumber.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Converters="using:WeekNumber.Converters" xmlns:System="using:System" mc:Ignorable="d">
+    xmlns:Converters="using:WeekNumber.Converters" mc:Ignorable="d">
 
     <Page.Resources>
 
         <CollectionViewSource x:Name="thisWeekViewSource" Source="{Binding Items}" d:Source="{Binding ThisBindableWeek.Days, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
-        
-        <!--CollectionViewSource x:Name="weeksInYearViewSource" Source="{Binding Groups}" d:Source="{Binding AllWeeks, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/-->
+        <CollectionViewSource x:Name="weeksInYearViewSource" Source="{Binding Groups}" d:Source="{Binding AllWeeks, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
         <Converters:CurrentWeekColorConverter x:Key="CurrentWeekColorConverter"/>
-
-<!-- Grid-appropriate 250 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
+        <DataTemplate x:Key="Week250x250ItemTemplate">
+            <Grid HorizontalAlignment="Left" Width="120" Height="120">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                    <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+                </Border>
+                <StackPanel VerticalAlignment="Bottom">
+                    <TextBlock Text="{Binding WeekNumber}" Foreground="{Binding IsCurrentWeek, Converter={StaticResource CurrentWeekColorConverter}}" Style="{StaticResource HeaderTextStyle}" Height="60" Margin="15,0,15,0"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <!-- Grid-appropriate 250 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
         <DataTemplate x:Key="Standard250x250ItemTemplate" >
-            <Grid x:Name="ItemGrid" HorizontalAlignment="Center" Width="{Binding GridSize, Mode=TwoWay}" Height="{Binding GridSize, Mode=TwoWay}">
-                    <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+
+            <Grid x:Name="ItemGrid" HorizontalAlignment="Center" Width="{Binding GridSize, Mode=TwoWay}" Height="230">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
                     <TextBlock Text="{Binding DayNumber}" FontSize="120" HorizontalAlignment="Center" Foreground="{Binding IsToday, Converter={StaticResource CurrentWeekColorConverter}}"/>
                 </Border>
-                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" Height="80">
                     <TextBlock Text="{Binding Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" FontSize="25" 
                                HorizontalAlignment="Center" Style="{StaticResource TitleTextStyle}" VerticalAlignment="Center" Margin="0,30,0,0"/>
                 </StackPanel>
             </Grid>
+        
         </DataTemplate>
-        <Style x:Key="ListViewItemStyle1" TargetType="ListViewItem">
-        	<Setter Property="Template">
-        		<Setter.Value>
-        			<ControlTemplate TargetType="ListViewItem">
-        				<Grid Width="124">
-        					<VisualStateManager.VisualStateGroups>
-        						<VisualStateGroup x:Name="CommonStates">
-        							<VisualState x:Name="PointerOver"/>
-        							<VisualState x:Name="Pressed"/>
-        							<VisualState x:Name="Disabled"/>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="FocusStates">
-        							<VisualState x:Name="Unfocused"/>
-        							<VisualState x:Name="PointerFocused"/>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="SelectionHintStates">
-        							<VisualState x:Name="HorizontalSelectionHint"/>
-        							<VisualState x:Name="NoSelectionHint"/>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="SelectionStates">
-        							<VisualState x:Name="Selected"/>
-        							<VisualState x:Name="Unselecting"/>
-        							<VisualState x:Name="Unselected"/>
-        							<VisualState x:Name="SelectedUnfocused"/>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="DragStates">
-        							<VisualState x:Name="Dragging"/>
-        							<VisualState x:Name="DraggingTarget"/>
-        							<VisualState x:Name="MultipleDraggingPrimary"/>
-        							<VisualState x:Name="MultipleDraggingSecondary"/>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="ReorderHintStates">
-        							<VisualState x:Name="BottomReorderHint"/>
-        							<VisualState x:Name="TopReorderHint"/>
-        							<VisualState x:Name="RightReorderHint"/>
-        							<VisualState x:Name="LeftReorderHint"/>
-        						</VisualStateGroup>
-        						<VisualStateGroup x:Name="DataVirtualizationStates">
-        							<VisualState x:Name="DataPlaceholder"/>
-        						</VisualStateGroup>
-        					</VisualStateManager.VisualStateGroups>
-        				</Grid>
-        			</ControlTemplate>
-        		</Setter.Value>
-        	</Setter>
-        </Style>
-    
     </Page.Resources>
 
     <!--
@@ -97,60 +60,88 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}" Grid.Column="1" Style="{StaticResource PageHeaderTextStyle}" FontSize="200" Margin="0,0,959,57"/>
-            <TextBlock x:Name="date" Text="{Binding Date}" Grid.Column="2" FontSize="30" Foreground="White"/>
+            <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}" Grid.Column="1" Style="{StaticResource PageHeaderTextStyle}" FontSize="200" Margin="0,-20,0,0"/>
+            <TextBlock x:Name="date" Text="{Binding Date}" Grid.Column="2" FontSize="30" Foreground="White" Margin="0,25,0,0"/>
         </Grid>
-        <Grid DataContext="{Binding Source={StaticResource thisWeekViewSource}}" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            
-            <GridView
-            x:Name="itemGridView"
-            Grid.Row="0"
+        <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="semanticZoom_ViewChangeCompleted_1">
+            <SemanticZoom.ZoomedOutView>
+                <GridView
+            x:Name="weeksGridView"
+            AutomationProperties.AutomationId="ItemGridView"
+            Grid.Row="1"
+            Margin="0,-3,0,0"
+            Padding="116,0,40,46"
+            ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}"
+            ItemTemplate="{StaticResource Week250x250ItemTemplate}"
+            SelectionMode="None"
+            IsItemClickEnabled="True"
+            ItemClick="ItemView_ItemClick">
 
-            Margin="0,0,0,0"
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VariableSizedWrapGrid Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="1,0,0,6">
+                                        <Button
+                                    AutomationProperties.Name="Weeks Title"
+                                    Content="HEiiiia"
+                                    Click="Header_Click"
+                                    Style="{StaticResource TextButtonStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <VariableSizedWrapGrid Orientation="Horizontal" Background="Red" Margin="0,0,80,0"/>
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                        </GroupStyle>
+                    </GridView.GroupStyle>
+                </GridView>
+            </SemanticZoom.ZoomedOutView>
+            <SemanticZoom.ZoomedInView>
+                <GridView x:Name="itemGridView"
+             Margin="80,50,50,0"
             ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
             ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
            SizeChanged="itemGridView_SizeChanged_1"
             SelectionMode="Single"
-            
             IsItemClickEnabled="False" Loaded="itemGridView_Loaded_1"
-             RenderTransformOrigin="0.5,0.5" Grid.RowSpan="1" Grid.ColumnSpan="7" UseLayoutRounding="False" d:LayoutRounding="Auto">
+                          Height="250"
+             RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2" Grid.ColumnSpan="7" UseLayoutRounding="False" d:LayoutRounding="Auto" VerticalAlignment="Top">
 
-            <GridView.RenderTransform>
-                <CompositeTransform SkewX="0.181" TranslateX="0.997"/>
-            </GridView.RenderTransform>
-            <GridView.ItemsPanel>
+                    <GridView.RenderTransform>
+                        <CompositeTransform SkewX="0.181" TranslateX="0.997"/>
+                    </GridView.RenderTransform>
+                    <GridView.ItemsPanel>
 
-                <ItemsPanelTemplate>
-                    <VirtualizingStackPanel Orientation="Horizontal" Height="200"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-            <ItemsPanelTemplate>
-                <VariableSizedWrapGrid Orientation="Horizontal" Margin="80,300,80,0"/>
-            </ItemsPanelTemplate>
-
-        </GridView>
-    </Grid>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel Orientation="Horizontal" VerticalAlignment="Top"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <!--ItemsPanelTemplate>
+                        <VariableSizedWrapGrid Orientation="Horizontal" Height="150"/>
+                    </ItemsPanelTemplate-->
+                </GridView>
+            </SemanticZoom.ZoomedInView>
+        </SemanticZoom>
+        <!-- Vertical scrolling list only used when snapped -->
         <ListView
             x:Name="itemListView"
    Grid.Row="1"
             Visibility="Collapsed"
-            Margin="0"
+            Margin="0,-10,0,0"
             Padding="10,0,0,60"
-            
             ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
             ItemTemplate="{StaticResource Standard80ItemTemplate}"
             SelectionMode="None"
             IsItemClickEnabled="True"
-            ItemClick="ItemView_ItemClick" Grid.ColumnSpan="7" ItemContainerStyle="{StaticResource ListViewItemStyle1}">
+            ItemClick="ItemView_ItemClick">
 
             <ListView.GroupStyle>
                 <GroupStyle>
@@ -169,7 +160,7 @@
             </ListView.GroupStyle>
         </ListView>
         <!--TextBlock x:Name="we" Text="{Binding ThisWeek.Days[0], Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}" Style="{StaticResource PageHeaderTextStyle}" Grid.Row="1"/-->
-        
+
 
         <VisualStateManager.VisualStateGroups>
 
