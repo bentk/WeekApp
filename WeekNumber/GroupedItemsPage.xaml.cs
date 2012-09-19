@@ -94,7 +94,7 @@ namespace WeekNumber
 
         private void itemGridView_SizeChanged_1(object sender, SizeChangedEventArgs e)
         {
-            var itemSize = ((int)itemGridView.ActualWidth/7) - 5;
+            var itemSize = ((int)(itemGridView.ActualWidth -100)/7);
             
             //Application.Current.Resources
             foreach (var item in itemGridView.Items)
@@ -106,8 +106,9 @@ namespace WeekNumber
                     
                 }
             }
+            itemGridView.ItemsSource= null;
+            itemGridView.ItemsSource = DefaultViewModel["Items"];
             
-            //itemGridView.ItemTemplate = new DataTemplate().g;
         }
     }
 }
