@@ -12,7 +12,6 @@
     xmlns:Converters="using:WeekNumber.Converters" mc:Ignorable="d">
 
     <Page.Resources>
-
         <CollectionViewSource x:Name="thisWeekViewSource" Source="{Binding Items}" d:Source="{Binding ThisBindableWeek.Days, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
         <CollectionViewSource x:Name="weeksInYearViewSource" Source="{Binding Groups}" d:Source="{Binding AllWeeks, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
         <Converters:CurrentWeekColorConverter x:Key="CurrentWeekColorConverter"/>
@@ -27,8 +26,7 @@
                     <TextBlock Text="{Binding DayNumber}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{Binding IsToday, Converter={StaticResource CurrentWeekColorConverter}}"/>
                 </Border>
                 <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <TextBlock Text="{Binding Name}" Style="{StaticResource ItemTextStyle}" MaxHeight="40"/>
-                    <TextBlock Text="dssSD " Style="{StaticResource CaptionTextStyle}" TextWrapping="NoWrap"/>
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource ItemTextStyle}" FontSize="25" MaxHeight="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -62,7 +60,7 @@
         	<Setter Property="FontSize" Value="{StaticResource ControlContentThemeFontSize}"/>
         	<Setter Property="Background" Value="Transparent"/>
         	<Setter Property="TabNavigation" Value="Local"/>
-        	<Setter Property="IsHoldingEnabled" Value="True"/>
+        	<Setter Property="IsHoldingEnabled" Value="False"/>
         	<Setter Property="Margin" Value="0,0,2,2"/>
         	<Setter Property="Template">
         		<Setter.Value>
@@ -75,10 +73,10 @@
         								<Storyboard>
         									<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PointerOverBorder"/>
         									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="SelectedBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListViewItemSelectedPointerOverBorderThemeBrush}"/>
+<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ApplicationSecondaryForegroundThemeBrush}"/>
         									</ObjectAnimationUsingKeyFrames>
         									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="SelectedEarmark">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListViewItemSelectedPointerOverBackgroundThemeBrush}"/>
+<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ApplicationSecondaryForegroundThemeBrush}"/>
         									</ObjectAnimationUsingKeyFrames>
         								</Storyboard>
         							</VisualState>
@@ -92,10 +90,10 @@
         									<PointerDownThemeAnimation TargetName="ContentContainer"/>
         									<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PointerOverBorder"/>
         									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="SelectedBorder">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListViewItemSelectedPointerOverBorderThemeBrush}"/>
+<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ApplicationSecondaryForegroundThemeBrush}"/>
         									</ObjectAnimationUsingKeyFrames>
         									<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="SelectedEarmark">
-        										<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ListViewItemSelectedPointerOverBackgroundThemeBrush}"/>
+<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ApplicationSecondaryForegroundThemeBrush}"/>
         									</ObjectAnimationUsingKeyFrames>
         								</Storyboard>
         							</VisualState>
@@ -276,28 +274,28 @@
         						</VisualStateGroup>
         					</VisualStateManager.VisualStateGroups>
         					<Grid x:Name="ReorderHintContent" Background="Transparent">
-        						<Path x:Name="SelectingGlyph" Data="F1 M133.1,17.9 L137.2,13.2 L144.6,19.6 L156.4,5.8 L161.2,9.9 L145.6,28.4 z" Fill="{StaticResource ListViewItemCheckSelectingThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="13" Margin="0,9.5,9.5,0" Opacity="0" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
+<Path x:Name="SelectingGlyph" Data="F1 M133.1,17.9 L137.2,13.2 L144.6,19.6 L156.4,5.8 L161.2,9.9 L145.6,28.4 z" Fill="{StaticResource ApplicationSecondaryForegroundThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="13" Margin="0,9.5,9.5,0" Opacity="0" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
         						<Border x:Name="ContentContainer">
         							<Grid x:Name="InnerDragContent">
         								<Border x:Name="HintGlyphBorder" HorizontalAlignment="Right" Height="40" Margin="0,6,4,0" Opacity="0" VerticalAlignment="Top" Width="40">
         									<Path x:Name="HintGlyph" Data="F1 M133.1,17.9 L137.2,13.2 L144.6,19.6 L156.4,5.8 L161.2,9.9 L145.6,28.4 z" Fill="{StaticResource ListViewItemCheckHintThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="13" Margin="0,5.5,5.5,0" Opacity="0" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
         								</Border>
-        								<Rectangle x:Name="PointerOverBorder" Fill="{StaticResource ListViewItemPointerOverBackgroundThemeBrush}" IsHitTestVisible="False" Margin="1" Opacity="0"/>
-        								<Rectangle x:Name="FocusVisual" IsHitTestVisible="False" Opacity="0" Stroke="{StaticResource ListViewItemFocusBorderThemeBrush}" StrokeThickness="2"/>
-        								<Rectangle x:Name="SelectionBackground" Fill="White" Margin="4" Opacity="0"/>
+<Rectangle x:Name="PointerOverBorder" Fill="{StaticResource ApplicationSecondaryForegroundThemeBrush}" IsHitTestVisible="False" Margin="1" Opacity="0"/>
+<Rectangle x:Name="FocusVisual" IsHitTestVisible="False" Opacity="0" Stroke="{StaticResource ApplicationSecondaryForegroundThemeBrush}" StrokeThickness="2"/>
+                                        <Rectangle x:Name="SelectionBackground" Fill="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Margin="4" Opacity="0"/>
         								<Border x:Name="ContentBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Margin="4">
         									<Grid>
         										<ContentPresenter x:Name="contentPresenter" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
         										<TextBlock x:Name="PlaceholderTextBlock" Foreground="{x:Null}" IsHitTestVisible="False" Margin="{TemplateBinding Padding}" Text="Xg" Visibility="Collapsed"/>
-        										<Rectangle x:Name="PlaceholderRect" Fill="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" IsHitTestVisible="False" Visibility="Collapsed"/>
-        										<Rectangle x:Name="SelectedBorder" IsHitTestVisible="False" Opacity="0" Stroke="White" StrokeThickness="{StaticResource GridViewItemSelectedBorderThemeThickness}"/>
+<Rectangle x:Name="PlaceholderRect" Fill="{StaticResource ApplicationSecondaryForegroundThemeBrush}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                <Rectangle x:Name="SelectedBorder" IsHitTestVisible="False" Opacity="0" Stroke="{StaticResource ApplicationSecondaryForegroundThemeBrush}" StrokeThickness="{StaticResource GridViewItemSelectedBorderThemeThickness}"/>
         										<Rectangle x:Name="MultiArrangeOverlayBackground" Fill="{StaticResource ListViewItemDragBackgroundThemeBrush}" IsHitTestVisible="False" Opacity="0"/>
         									</Grid>
         								</Border>
         								<Border x:Name="SelectedCheckMarkOuter" HorizontalAlignment="Right" IsHitTestVisible="False" Margin="4" Padding="{TemplateBinding BorderThickness}" VerticalAlignment="Top">
         									<Grid x:Name="SelectedCheckMark" Height="40" Opacity="0" Width="40">
-        										<Path x:Name="SelectedEarmark" Data="M0,0 L40,0 L40,40 z" Fill="White" Stretch="Fill"/>
-        										<Path Data="F1 M133.1,17.9 L137.2,13.2 L144.6,19.6 L156.4,5.8 L161.2,9.9 L145.6,28.4 z" Fill="#888888" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="13" Margin="0,5.5,5.5,0" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
+<Path x:Name="SelectedEarmark" Data="M0,0 L40,0 L40,40 z" Fill="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Stretch="Fill"/>
+                        <Path Data="F1 M133.1,17.9 L137.2,13.2 L144.6,19.6 L156.4,5.8 L161.2,9.9 L145.6,28.4 z" Fill="{StaticResource ApplicationPageBackgroundThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="13" Margin="0,5.5,5.5,0" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
         									</Grid>
         								</Border>
         								<TextBlock x:Name="MultiArrangeOverlayText" Foreground="{StaticResource ListViewItemDragForegroundThemeBrush}" FontSize="26.667" FontFamily="{StaticResource ContentControlThemeFontFamily}" IsHitTestVisible="False" Margin="18,9,0,0" Opacity="0" TextWrapping="Wrap" Text="{Binding TemplateSettings.DragItemsCount, RelativeSource={RelativeSource Mode=TemplatedParent}}" TextTrimming="WordEllipsis"/>
@@ -330,28 +328,29 @@
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
             <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}" Grid.Column="1" Style="{StaticResource PageHeaderTextStyle}" FontSize="200" Margin="0,-20,0,0"/>
-            <TextBlock x:Name="date" Text="{Binding Date}" Grid.Column="2" FontSize="30" Foreground="White" Margin="0,25,0,0"/>
+            <TextBlock x:Name="date" Text="{Binding Date}" Grid.Column="2" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Margin="0,25,0,0"/>
         </Grid>
         <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="semanticZoom_ViewChangeCompleted_1">
             <SemanticZoom.ZoomedOutView>
                 <GridView
             x:Name="weeksGridView"
             AutomationProperties.AutomationId="ItemGridView"
+                   IsItemClickEnabled="False"
             Grid.Row="1"
-            Margin="0,-3,0,0"
-            Padding="116,0,40,46"
+             Margin="80,50,50,0"
+            IsHitTestVisible="False"
             ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}"
             ItemTemplate="{StaticResource Week250x250ItemTemplate}"
-            SelectionMode="None"
-            IsItemClickEnabled="True"
+            SelectionMode="Single"
+            Loaded="WeeksGridView_OnLoaded"
             ItemClick="ItemView_ItemClick">
 
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <VariableSizedWrapGrid Orientation="Vertical"/>
+                            <WrapGrid Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
-                    <GridView.GroupStyle>
+                    <!--GridView.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.HeaderTemplate>
                                 <DataTemplate>
@@ -370,7 +369,7 @@
                                 </ItemsPanelTemplate>
                             </GroupStyle.Panel>
                         </GroupStyle>
-                    </GridView.GroupStyle>
+                    </GridView.GroupStyle-->
                 </GridView>
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
@@ -378,7 +377,7 @@
              Margin="80,50,50,0"
             ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
             ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
-                         
+                         IsHitTestVisible="False"
            SizeChanged="itemGridView_SizeChanged_1"
             SelectionMode="Single" 
             IsItemClickEnabled="False" Loaded="itemGridView_Loaded_1"
@@ -409,10 +408,11 @@
             Padding="10,0,0,60"
             ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
             ItemTemplate="{StaticResource Standard80ItemTemplate}"
-            SelectionMode="None"
-            IsItemClickEnabled="True"
+            SelectionMode="Single"
+            IsItemClickEnabled="False"
+            IsHitTestVisible="False"
+            Loaded="itemListView_Loaded_1"
             ItemClick="ItemView_ItemClick">
-
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>

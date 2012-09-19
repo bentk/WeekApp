@@ -91,7 +91,17 @@ namespace WeekNumber
             }
             
         }
+        private void itemListView_Loaded_1(object sender, RoutedEventArgs e)
+        {
 
+            foreach (var item in itemListView.Items)
+            {
+                var day = item as BindableDay;
+                if (day != null && day.IsToday)
+                    itemListView.SelectedItem = day;
+            }
+
+        }
         private void itemGridView_SizeChanged_1(object sender, SizeChangedEventArgs e)
         {
             var itemSize = ((int)(itemGridView.ActualWidth -100)/7);
@@ -109,6 +119,16 @@ namespace WeekNumber
             itemGridView.ItemsSource= null;
             itemGridView.ItemsSource = DefaultViewModel["Items"];
             
+        }
+
+        private void WeeksGridView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in weeksGridView.Items)
+            {
+                var week = item as BindableWeek;
+                if (week != null && week.IsCurrentWeek)
+                    weeksGridView.SelectedItem = week;
+            }
         }
     }
 }

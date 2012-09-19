@@ -48,7 +48,7 @@ namespace WeekNumber.Data
             {
                 var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
                 var dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
-                return dateTimeFormat.Calendar.GetDayOfWeek(_dateTime).ToString();
+                return dateTimeFormat.GetDayName(_dateTime.DayOfWeek);
             }
         }
 

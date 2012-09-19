@@ -53,7 +53,8 @@ namespace WeekCalendar
 
         public string GetYearMonthAndDayFormatted(DateTime today)
         {
-            return today.ToString(_dateTimeFormat.LongDatePattern);
+            return today.ToString("D", _dateTimeFormat);
+            //return today.Date.ToString(_dateTimeFormat.LongDatePattern);
         }
     }
 }
