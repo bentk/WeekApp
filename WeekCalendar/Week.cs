@@ -48,13 +48,12 @@ namespace WeekCalendar
 
         public string DayAndMonthStringFromDate(DateTime today)
         {
-            return today.ToString(_dateTimeFormat.MonthDayPattern);
+            return today.ToString(_dateTimeFormat.MonthDayPattern, _dateTimeFormat);
         }
 
         public string GetYearMonthAndDayFormatted(DateTime today)
         {
             return today.ToString("D", _dateTimeFormat);
-            //return today.Date.ToString(_dateTimeFormat.LongDatePattern);
         }
     }
 }

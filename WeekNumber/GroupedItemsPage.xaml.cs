@@ -82,15 +82,19 @@ namespace WeekNumber
 
         private void itemGridView_Loaded_1(object sender, RoutedEventArgs e)
         {
+            SelectToday();
+        }
 
+        private void SelectToday()
+        {
             foreach (var item in itemGridView.Items)
             {
                 var day = item as BindableDay;
                 if (day != null && day.IsToday)
                     itemGridView.SelectedItem = day;
             }
-            
         }
+
         private void itemListView_Loaded_1(object sender, RoutedEventArgs e)
         {
 
@@ -118,6 +122,7 @@ namespace WeekNumber
             }
             itemGridView.ItemsSource= null;
             itemGridView.ItemsSource = DefaultViewModel["Items"];
+            SelectToday();
             
         }
 

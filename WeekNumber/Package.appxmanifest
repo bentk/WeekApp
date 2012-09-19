@@ -16,13 +16,11 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="BindableWeekNumber.App">
-      <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="This application shows the Number of the Current Week." ForegroundText="light" BackgroundColor="#888888">
+      <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="This application shows the Number of the Current Week." ForegroundText="light" BackgroundColor="#1D1D1D">
         <DefaultTile ShowName="noLogos" WideLogo="Assets\WideLogo.png" ShortName="Week Number" />
         <SplashScreen Image="Assets\SplashScreen2.png" />
         <InitialRotationPreference>
-          <Rotation Preference="portrait" />
           <Rotation Preference="landscape" />
-          <Rotation Preference="portraitFlipped" />
           <Rotation Preference="landscapeFlipped" />
         </InitialRotationPreference>
       </VisualElements>
