@@ -74,7 +74,7 @@
                             <common:RichTextColumns x:Name="richTextColumns" Margin="117,0,117,47">
                                 <RichTextBlock x:Name="richTextBlock" Width="560" Style="{StaticResource ItemRichTextStyle}">
                                     <Paragraph>
-                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding DayOfWeek}"/>
+                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Name}"/>
                                         <LineBreak/>
                                         <LineBreak/>
                                         <!--Run FontWeight="SemiBold" Text="{Binding Subtitle}"/-->

@@ -11,9 +11,9 @@ namespace WeekNumber.Converters
         {
             var boolValue = value as bool?;
             if (boolValue != null)
-                return (bool) boolValue ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.Black);
+                return (bool) boolValue ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
 
-            return Colors.Purple;
+            return Colors.White;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

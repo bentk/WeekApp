@@ -27,19 +27,37 @@ namespace WeekNumber.Data
         }
 
         public List<BindableDay> Days { get; private set; }
+
+        public string Date
+        {
+            get {
+                var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+                return new WeekCalendar.Week(culture).GetYearMonthAndDayFormatted(DateTime.Today);
+            }
+
+        }
     }
 
     public class BindableDay : Common.BindableBase
     {
         public bool IsToday { get { return DateTime.Today.CompareTo(_dateTime) == 0; } }
-        public string Name{ get
+
+        public string Name
         {
-            var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
-            var dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
-            return dateTimeFormat.Calendar.GetDayOfWeek(_dateTime).ToString();
-        }
+            get
+            {
+                var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+                var dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
+                return dateTimeFormat.Calendar.GetDayOfWeek(_dateTime).ToString();
+            }
         }
 
+        private int _gridSize = 250;
+        public int GridSize
+        {
+            get { return _gridSize; }
+            set { _gridSize = value; }
+        }
         public string DayNumber
         {
             get { return _dateTime.Day.ToString(); }
