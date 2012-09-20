@@ -330,7 +330,7 @@
             <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}" Grid.Column="1" Style="{StaticResource PageHeaderTextStyle}" FontSize="200" Margin="0,-20,0,0"/>
             <TextBlock x:Name="date" Text="{Binding Date}" Grid.Column="2" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Margin="0,25,0,0"/>
         </Grid>
-        <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="semanticZoom_ViewChangeCompleted_1">
+        <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="SemanticZoomViewChangeCompleted1">
             <SemanticZoom.ZoomedOutView>
                 <GridView
             x:Name="weeksGridView"
@@ -343,7 +343,7 @@
             ItemTemplate="{StaticResource Week250x250ItemTemplate}"
             SelectionMode="Single"
             Loaded="WeeksGridView_OnLoaded"
-            ItemClick="ItemView_ItemClick">
+            ItemClick="ItemViewItemClick">
 
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -378,9 +378,9 @@
             ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
             ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
                          IsHitTestVisible="False"
-           SizeChanged="itemGridView_SizeChanged_1"
+           SizeChanged="ItemGridViewSizeChanged"
             SelectionMode="Single" 
-            IsItemClickEnabled="False" Loaded="itemGridView_Loaded_1"
+            IsItemClickEnabled="False" Loaded="ItemGridViewLoaded1"
                           Height="250"
              RenderTransformOrigin="0.5,0.5" Grid.RowSpan="2" Grid.ColumnSpan="7" UseLayoutRounding="False" d:LayoutRounding="Auto" VerticalAlignment="Top" ItemContainerStyle="{StaticResource GridViewItemStyle1}">
 
@@ -411,8 +411,8 @@
             SelectionMode="Single"
             IsItemClickEnabled="False"
             IsHitTestVisible="False"
-            Loaded="itemListView_Loaded_1"
-            ItemClick="ItemView_ItemClick">
+            Loaded="ItemListViewLoaded"
+            ItemClick="ItemViewItemClick">
             <ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
@@ -421,7 +421,7 @@
                                 <Button
                                     AutomationProperties.Name="Weeks Title"
                                     Content="{Binding DayOfWeek}"
-                                    Click="Header_Click"
+                                    Click="HeaderClick"
                                     Style="{StaticResource TextButtonStyle}"/>
                             </Grid>
                         </DataTemplate>
