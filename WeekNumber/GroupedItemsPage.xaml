@@ -13,7 +13,7 @@
 
     <Page.Resources>
         <CollectionViewSource x:Name="thisWeekViewSource" Source="{Binding Items}" d:Source="{Binding ThisBindableWeek.Days, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
-        <CollectionViewSource x:Name="weeksInYearViewSource" Source="{Binding Groups}" d:Source="{Binding AllWeeks, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
+        <CollectionViewSource x:Name="weeksInYearViewSource" Source="{Binding Groups}"/>
         <Converters:CurrentWeekColorConverter x:Key="CurrentWeekColorConverter"/>
 
 <DataTemplate x:Key="Standard80ItemTemplate">
@@ -326,50 +326,50 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}" Grid.Column="1" Style="{StaticResource PageHeaderTextStyle}" FontSize="200" Margin="0,-20,0,0"/>
-            <TextBlock x:Name="date" Text="{Binding Date}" Grid.Column="2" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Margin="0,25,0,0"/>
+            
+            <Grid>
+                <Grid>
+<Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
+                <TextBlock  x:Name="date" Text="{Binding Date}" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}"/>
+                </Grid>
+            <FlipView
+            x:Name="flipView"
+            TabIndex="1"
+                    Grid.Row="1"
+            ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}">
+
+                <FlipView.ItemTemplate>
+                    <DataTemplate>
+
+                            <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}" Style="{StaticResource PageHeaderTextStyle}" FontSize="200"/>
+                    </DataTemplate>
+                </FlipView.ItemTemplate>
+            </FlipView>
+            </Grid>
         </Grid>
         <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="SemanticZoomViewChangeCompleted1">
             <SemanticZoom.ZoomedOutView>
-                <GridView
-            x:Name="weeksGridView"
-            AutomationProperties.AutomationId="ItemGridView"
-                   IsItemClickEnabled="False"
-            Grid.Row="1"
-             Margin="80,50,50,0"
-            IsHitTestVisible="False"
-            ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}"
-            ItemTemplate="{StaticResource Week250x250ItemTemplate}"
-            SelectionMode="Single"
-            Loaded="WeeksGridView_OnLoaded"
-            ItemClick="ItemViewItemClick">
+            <GridView
+                ItemContainerStyle="{StaticResource GridViewItemStyle1}"
+                IsEnabled="False"
+                x:Name="weeksGridView"
+                AutomationProperties.AutomationId="ItemGridView"
+                IsItemClickEnabled="False"
+                Grid.Row="1"
+                Margin="80,50,50,0"
+                IsHitTestVisible="False"
+                ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}"
+                ItemTemplate="{StaticResource Week250x250ItemTemplate}"
+                SelectionMode="Single"
+                Loaded="WeeksGridView_OnLoaded"
+                ItemClick="ItemViewItemClick">
 
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapGrid Orientation="Horizontal"/>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
-                    <!--GridView.GroupStyle>
-                        <GroupStyle>
-                            <GroupStyle.HeaderTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="1,0,0,6">
-                                        <Button
-                                    AutomationProperties.Name="Weeks Title"
-                                    Content="HEiiiia"
-                                    Click="Header_Click"
-                                    Style="{StaticResource TextButtonStyle}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </GroupStyle.HeaderTemplate>
-                            <GroupStyle.Panel>
-                                <ItemsPanelTemplate>
-                                    <VariableSizedWrapGrid Orientation="Horizontal" Background="Red" Margin="0,0,80,0"/>
-                                </ItemsPanelTemplate>
-                            </GroupStyle.Panel>
-                        </GroupStyle>
-                    </GridView.GroupStyle-->
+
                 </GridView>
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
@@ -393,16 +393,14 @@
                             <VirtualizingStackPanel Orientation="Horizontal" VerticalAlignment="Top"/>
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
-                    <!--ItemsPanelTemplate>
-                        <VariableSizedWrapGrid Orientation="Horizontal" Height="150"/>
-                    </ItemsPanelTemplate-->
+
                 </GridView>
             </SemanticZoom.ZoomedInView>
         </SemanticZoom>
         <!-- Vertical scrolling list only used when snapped -->
         <ListView
             x:Name="itemListView"
-   Grid.Row="1"
+            Grid.Row="1"
             Visibility="Collapsed"
             Margin="0,20,0,0"
             Padding="10,0,0,60"
@@ -431,7 +429,6 @@
         </ListView>
  
         <VisualStateManager.VisualStateGroups>
-
             <!-- Visual states reflect the application's view state -->
             <VisualStateGroup x:Name="ApplicationViewStates">
                 <VisualState x:Name="FullScreenLandscape"/>
@@ -459,9 +456,9 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedBackButtonStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
+                        <!--ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
-                        </ObjectAnimationUsingKeyFrames>
+                        </ObjectAnimationUsingKeyFrames-->
 
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemListView" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
