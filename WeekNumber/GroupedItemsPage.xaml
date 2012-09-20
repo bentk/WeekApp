@@ -32,13 +32,11 @@
         </DataTemplate>
 
         <DataTemplate x:Key="Week250x250ItemTemplate">
-            <Grid HorizontalAlignment="Left" Width="120" Height="120">
+            <Grid HorizontalAlignment="Center" Width="{Binding GridSizeWeek, Mode=TwoWay}" Height="100">
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                    <Image Source="{Binding Image}" Stretch="UniformToFill"/>
-                </Border>
-                <StackPanel VerticalAlignment="Bottom">
-                    <TextBlock Text="{Binding WeekNumber}" Foreground="{Binding IsCurrentWeek, Converter={StaticResource CurrentWeekColorConverter}}" Style="{StaticResource HeaderTextStyle}" Height="60" Margin="15,0,15,0"/>
-                </StackPanel>
+<TextBlock Text="{Binding WeekNumber}" Foreground="{Binding IsCurrentWeek, Converter={StaticResource CurrentWeekColorConverter}}"
+           Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
             </Grid>
         </DataTemplate>
         <!-- Grid-appropriate 250 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
@@ -336,7 +334,8 @@
             x:Name="flipView"
             TabIndex="1"
                     Grid.Row="1"
-            ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}">
+            ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}"
+                SelectionChanged="FlipViewSelectionChanged">
 
                 <FlipView.ItemTemplate>
                     <DataTemplate>
@@ -362,7 +361,8 @@
                 ItemTemplate="{StaticResource Week250x250ItemTemplate}"
                 SelectionMode="Single"
                 Loaded="WeeksGridView_OnLoaded"
-                ItemClick="ItemViewItemClick">
+                ItemClick="ItemViewItemClick"
+                SizeChanged="WeeksGridView_OnSizeChanged">
 
                     <GridView.ItemsPanel>
                         <ItemsPanelTemplate>

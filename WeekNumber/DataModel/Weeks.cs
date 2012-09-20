@@ -22,11 +22,22 @@ namespace WeekNumber.Data
             var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
             var s = new WeekCalendar.Week(culture);
             WeekNumber = s.GetWeekNumberFromDate(day);
-            Days = s.GetDaysInCurrentWeek(day).Select(d=> new BindableDay(d)).ToList();
+            Days = new ObservableCollection<BindableDay>(s.GetDaysInCurrentWeek(day).Select(d=> new BindableDay(d)).ToList());
             Year = day.Year;
+        }       
+
+        private int _gridSize = 150;
+        public int GridSizeWeek
+        {
+            get { return _gridSize; }
+            set
+            {
+                _gridSize = value;
+                OnPropertyChanged();
+            }
         }
 
-        public List<BindableDay> Days { get; private set; }
+        public ObservableCollection<BindableDay> Days { get; private set; }
 
         public string Date
         {
@@ -56,7 +67,11 @@ namespace WeekNumber.Data
         public int GridSize
         {
             get { return _gridSize; }
-            set { _gridSize = value; }
+            set
+            {
+                _gridSize = value;
+                OnPropertyChanged();
+            }
         }
         public string DayNumber
         {
@@ -68,10 +83,6 @@ namespace WeekNumber.Data
         {
             _dateTime = dateTime;
         }
-        //public string NameOfDay
-        //{
-        //    return 
-        //}
     }
 
     /// <summary>
@@ -89,9 +100,9 @@ namespace WeekNumber.Data
         }
 
         //public static int currentWeek
-        public static IEnumerable<BindableWeek> GetAllWeeks(int year)
+        public static ObservableCollection<BindableWeek> GetAllWeeks()
         {
-            return _sampleDataSource.AllWeeks.Where(w=>w.Year == year);
+            return _sampleDataSource.AllWeeks;
         }
 
         public static BindableWeek GetWeek(int weekNumber)
@@ -117,6 +128,9 @@ namespace WeekNumber.Data
             var startDate = new DateTime(DateTime.Today.Year, 1, 1);
             while (startDate.Year == DateTime.Today.Year)
             {
+                var week = new BindableWeek(startDate);
+                if (AllWeeks.Count == 0 && week.WeekNumber > 50)
+                    startDate = startDate.AddDays(7);
                 AllWeeks.Add(new BindableWeek(startDate));
                 startDate = startDate.AddDays(7);
             }

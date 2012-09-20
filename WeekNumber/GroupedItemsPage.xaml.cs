@@ -15,11 +15,23 @@ namespace WeekNumber
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
+            flipView.SelectionChanged -= FlipViewSelectionChanged;
+            DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks();
             DefaultViewModel["Items"] = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber).Days;
-            DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks(SampleDataSource.ThisBindableWeek.Year);
             DefaultViewModel["WeekNumber"] = SampleDataSource.ThisBindableWeek.WeekNumber;
             DefaultViewModel["Date"] = SampleDataSource.ThisBindableWeek.Date;
             itemGridView.IsEnabled = false;
+            foreach (var item in flipView.Items)
+            {
+                var week = item as BindableWeek;
+                if(week != null && week.WeekNumber == SampleDataSource.ThisBindableWeek.WeekNumber)
+                {
+                    flipView.SelectedItem = week;
+                    break;
+                }
+            }
+            flipView.SelectedItem = SampleDataSource.ThisBindableWeek;
+            flipView.SelectionChanged += FlipViewSelectionChanged;
         }
 
         void HeaderClick(object sender, RoutedEventArgs e)
@@ -68,10 +80,37 @@ namespace WeekNumber
             }
         }
 
+   
+
+        private void WeeksGridView_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SetCurrentWeek();
+        }
+
+        private void SetCurrentWeek()
+        {
+            foreach (var item in weeksGridView.Items)
+            {
+                var week = item as BindableWeek;
+                if (week != null && week.IsCurrentWeek)
+                    weeksGridView.SelectedItem = week;
+            }
+            
+        }
+
+        private void FlipViewSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var week = e.AddedItems[0] as BindableWeek;
+            if (week != null)
+            {
+                itemGridView.ItemsSource = SampleDataSource.GetWeek(week.WeekNumber).Days;
+                SelectToday();
+            }
+        }
         private void ItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var itemSize = ((int)(itemGridView.ActualWidth -100)/7);
-            
+            var itemSize = ((int)(itemGridView.ActualWidth - 100) / 7);
+
             foreach (var item in itemGridView.Items)
             {
                 var gridItem = item as BindableDay;
@@ -80,20 +119,26 @@ namespace WeekNumber
                     gridItem.GridSize = itemSize;
                 }
             }
-
-            itemGridView.ItemsSource= null;
-            itemGridView.ItemsSource = DefaultViewModel["Items"];
-            SelectToday();
         }
-
-        private void WeeksGridView_OnLoaded(object sender, RoutedEventArgs e)
+        private void WeeksGridView_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            var index = flipView.SelectedIndex;
+            var itemSize = ((int) (weeksGridView.ActualWidth)/15);
+
             foreach (var item in weeksGridView.Items)
             {
-                var week = item as BindableWeek;
-                if (week != null && week.IsCurrentWeek)
-                    weeksGridView.SelectedItem = week;
+                var gridItem = item as BindableWeek;
+                if (gridItem != null)
+                {
+                    gridItem.GridSizeWeek = itemSize;
+                }
             }
+            flipView.SelectionChanged -= FlipViewSelectionChanged;
+            weeksGridView.ItemsSource = null;
+            weeksGridView.ItemsSource = DefaultViewModel["Groups"];
+            SetCurrentWeek();
+            flipView.SelectedIndex = index;
+            flipView.SelectionChanged += FlipViewSelectionChanged;
         }
     }
 }
