@@ -1,6 +1,7 @@
 ﻿using WeekNumber.Data;
 using System;
 using System.Collections.Generic;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -20,7 +21,7 @@ namespace WeekNumber
             DefaultViewModel["Items"] = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber).Days;
             DefaultViewModel["WeekNumber"] = SampleDataSource.ThisBindableWeek.WeekNumber;
             DefaultViewModel["Date"] = SampleDataSource.ThisBindableWeek.Date;
-            itemGridView.IsEnabled = false;
+            ((ListViewBase)semanticZoom.ZoomedOutView).ItemsSource = DefaultViewModel["Groups"];
             foreach (var item in flipView.Items)
             {
                 var week = item as BindableWeek;
@@ -32,6 +33,7 @@ namespace WeekNumber
             }
             flipView.SelectedItem = SampleDataSource.ThisBindableWeek;
             flipView.SelectionChanged += FlipViewSelectionChanged;
+            itemGridView.TabIndex = 2;
         }
 
         void HeaderClick(object sender, RoutedEventArgs e)
@@ -40,12 +42,6 @@ namespace WeekNumber
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
             //this.Frame.Navigate(typeof(GroupDetailPage), ((SampleDataGroup)group).UniqueId);
-        }
-
-        void ItemViewItemClick(object sender, ItemClickEventArgs e)
-        {
-            //var itemId = ((DateTime)e.ClickedItem);//.GetWeek(e.ClickedItem)
-            //this.Frame.Navigate(typeof(ItemDetailPage), itemId);
         }
 
         private void SemanticZoomViewChangeCompleted1(object sender, SemanticZoomViewChangedEventArgs e)
@@ -101,15 +97,44 @@ namespace WeekNumber
         private void FlipViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var week = e.AddedItems[0] as BindableWeek;
+            SetWeek(week);
+            
+SetItemSize();
+        }
+
+        private void SetWeek(BindableWeek week)
+        {
             if (week != null)
             {
                 itemGridView.ItemsSource = SampleDataSource.GetWeek(week.WeekNumber).Days;
+                foreach (var item in weeksGridView.Items)
+                {
+                    var week2 = item as BindableWeek;
+                    if (week2 != null && week.WeekNumber == week2.WeekNumber)
+                    {
+                        weeksGridView.SelectedItem = item;
+                        break;
+                    }
+                }
                 SelectToday();
             }
         }
+
         private void ItemGridViewSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var itemSize = ((int)(itemGridView.ActualWidth - 100) / 7);
+            SetItemSize();
+            //flipView.SelectionChanged -= FlipViewSelectionChanged;
+            //itemGridView.ItemsSource = null;
+            //itemGridView.ItemsSource = DefaultViewModel["Items"];
+            //DefaultViewModel["Items"] = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber).Days;
+            //SetCurrentWeek();
+            //flipView.SelectedIndex = index;
+            //flipView.SelectionChanged += FlipViewSelectionChanged;
+        }
+
+        private void SetItemSize()
+        {
+            var itemSize = ((int) (ActualWidth - 200)/7);
 
             foreach (var item in itemGridView.Items)
             {
@@ -120,6 +145,7 @@ namespace WeekNumber
                 }
             }
         }
+
         private void WeeksGridView_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             var index = flipView.SelectedIndex;
@@ -139,6 +165,37 @@ namespace WeekNumber
             SetCurrentWeek();
             flipView.SelectedIndex = index;
             flipView.SelectionChanged += FlipViewSelectionChanged;
+        }
+    
+        private void DayTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var s = sender as FrameworkElement;
+            if(s!=null)
+            {
+                //var day = s.DataContext as BindableDay;
+                //if(day!= null)
+                //    new MessageDialog("sdfasdfdad=" + day.Name).ShowAsync();
+            }
+        }
+
+        private void WeekTapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var s = sender as FrameworkElement;
+            if (s != null)
+            {
+                var week = s.DataContext as BindableWeek;
+                if(week != null)
+                {
+                    flipView.SelectedIndex = week.WeekNumber - 1;
+//                    SetWeek(week);
+                }
+            }
+
+        }
+
+        private void Grid_SizeChanged_1(object sender, SizeChangedEventArgs e)
+        {
+            itemGridView.Width = ActualWidth;
         }
     }
 }
