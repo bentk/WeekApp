@@ -17,6 +17,7 @@ namespace WeekNumber
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
             flipView.SelectionChanged -= FlipViewSelectionChanged;
+            
             DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks();
             DefaultViewModel["Items"] = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber).Days;
             DefaultViewModel["WeekNumber"] = SampleDataSource.ThisBindableWeek.WeekNumber;
@@ -28,6 +29,7 @@ namespace WeekNumber
                 if(week != null && week.WeekNumber == SampleDataSource.ThisBindableWeek.WeekNumber)
                 {
                     flipView.SelectedItem = week;
+                    week.SelectedWeek = week.WeekNumber;
                     break;
                 }
             }
@@ -83,8 +85,12 @@ namespace WeekNumber
 
         private void FlipViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             var week = e.AddedItems[0] as BindableWeek;
-            SetWeek(week);
+            week.SelectedWeek = week.WeekNumber;
+            var removedWeek = e.RemovedItems[0] as BindableWeek;
+            removedWeek.SelectedWeek=week.WeekNumber;
+                SetWeek(week);
             SetListView(week);
             SetItemSize();
         }
@@ -102,6 +108,7 @@ namespace WeekNumber
             if (week != null)
             {
                 itemGridView.ItemsSource = SampleDataSource.GetWeek(week.WeekNumber).Days;
+                
             }
         }
 

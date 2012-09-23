@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.System.UserProfile;
 
@@ -12,11 +11,18 @@ namespace WeekNumber.Data
     {
         public int WeekNumber { get; private set; }
         public int Year { get; private set; }
-        public bool IsCurrentWeek { get
+        public int SelectedWeek { get; set; }
+        public bool IsSelectedWeek { get { return WeekNumber == SelectedWeek; } }
+
+        public bool IsCurrentWeek
         {
-            var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
-            return WeekNumber == new WeekCalendar.Week(culture).GetWeekNumberFromDate(DateTime.Today);
-        } }
+            get
+            {
+                var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+                return WeekNumber == new WeekCalendar.Week(culture).GetWeekNumberFromDate(DateTime.Today);
+            }
+        }
+
         public BindableWeek(DateTime day)
         {
             var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;

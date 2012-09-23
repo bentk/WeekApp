@@ -14,7 +14,9 @@
         <CollectionViewSource x:Name="thisWeekViewSource" Source="{Binding Items}" d:Source="{Binding ThisBindableWeek.Days, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
         <CollectionViewSource x:Name="weeksInYearViewSource" Source="{Binding Groups}"/>
         <common:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        
+        <!--common:CurrentWeekColorConverter x:Key="CurrentWeekColorConverter"/-->
+
+                
         <DataTemplate x:Key="Standard80ItemTemplate">
             <Grid Margin="6">
                 <Grid.ColumnDefinitions>
@@ -35,22 +37,29 @@
         <DataTemplate x:Key="Week250x250ItemTemplate">
             <Grid Width="{Binding GridSizeWeek, Mode=TwoWay}" Tapped="WeekTapped" Height="{Binding GridSizeWeek, Mode=TwoWay}">
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                    <TextBlock Text="{Binding WeekNumber}" Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Border>
-                <Ellipse Stroke="Red" StrokeThickness="6" Width="70" Height="70" Visibility="{Binding IsCurrentWeek, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <TextBlock Text="{Binding WeekNumber}" Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
+                <Ellipse Stroke="Red" StrokeThickness="6" Width="80" Height="80" Visibility="{Binding IsCurrentWeek, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </DataTemplate>
         <!-- Grid-appropriate 250 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
         <DataTemplate x:Key="Standard250x250ItemTemplate" >
-            <Grid x:Name="ItemGrid" Width="{Binding GridSize, Mode=TwoWay}" Height="{Binding GridSize, Mode=TwoWay}" Tapped="DayTapped">
-                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+            <Grid x:Name="ItemGrid" Width="{Binding GridSize, Mode=TwoWay}" MinHeight="200" Height="{Binding GridSize, Mode=TwoWay}" Tapped="DayTapped" Margin="0,5,0,-25">
+                <!--Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                    <TextBlock Text="{Binding DayNumber}" FontSize="100" HorizontalAlignment    ="Center"/>
+                </Border-->
+                <StackPanel  Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" >
+<Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
                     <TextBlock Text="{Binding DayNumber}" FontSize="100" HorizontalAlignment="Center"/>
+
                 </Border>
-                <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" Height="30">
+                    <Border Background="Black">
                     <TextBlock Text="{Binding Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" FontSize="25" 
-                               HorizontalAlignment="Center" Style="{StaticResource TitleTextStyle}" VerticalAlignment="Center" Margin="0,30,0,0"/>
+                               HorizontalAlignment="Center" Style="{StaticResource TitleTextStyle}" VerticalAlignment="Bottom" Height="100"  Margin="0,13,0,-10"/>
+</Border>
                 </StackPanel>
-                <Ellipse Stroke="Red" StrokeThickness="6" Width="120" Height="120" Visibility="{Binding IsToday, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+<Ellipse Stroke="Red" StrokeThickness="8" Width="140" Height="140" VerticalAlignment="Top" Visibility="{Binding IsToday, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            
             </Grid>
         
         </DataTemplate>
@@ -64,7 +73,7 @@
     <Grid Style="{StaticResource LayoutRootStyle}" SizeChanged="Grid_SizeChanged_1">
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="240"/>
+            <RowDefinition Height="250"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -75,18 +84,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <Grid Margin="10,20,0,0">
-                <Grid >
-                    <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-                    <TextBlock x:Name="date" Text="{Binding Date}" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Margin="30,0,0,0"/>
-                </Grid>
+            <Grid Margin="6,0,0,0">
+
             <FlipView
             x:Name="flipView"
             TabIndex="1"
             Grid.Row="1"
-                Margin="2,0,0,0"
+                
+                Margin="5,10,0,0"
             ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}"
-            SelectionChanged="FlipViewSelectionChanged" Width="310" Height="240">
+            SelectionChanged="FlipViewSelectionChanged" Width="310" Height="250">
                 <FlipView.ItemTemplate>
                     <DataTemplate>
                         <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
@@ -96,6 +103,12 @@
                 </FlipView.ItemTemplate>
                 
             </FlipView>
+                <Grid VerticalAlignment="Top" Height="50">
+                    <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}" Margin="10,-4,0,-4"/>
+                    <TextBlock x:Name="date" Text="{Binding Date}" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Margin="20,24,0,-10" HorizontalAlignment="Left"/>
+                </Grid>
+
+                            
             </Grid>
         </Grid>
         <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="SemanticZoomViewChangeCompleted1">
@@ -124,18 +137,18 @@ IsItemClickEnabled="False"
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
                 <GridView x:Name="itemGridView" 
-                Margin="10,20,20,40"
+                Margin="10,20,107,320"
                 ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
                 ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
                 HorizontalAlignment="Stretch"
-                          VerticalAlignment="Top"
                 SizeChanged="ItemGridViewSizeChanged"
                 IsItemClickEnabled="False"
                 SelectionMode="None" 
                 Loaded="ItemGridViewLoaded1"
+                          Height="210"
                 RenderTransformOrigin="0.5,0.5" 
                 UseLayoutRounding="False"
-                Height="250"
+                VerticalAlignment="Top"
                 Background="{StaticResource ComboBoxArrowDisabledForegroundThemeBrush}">
 
                         <GridView.RenderTransform>
@@ -144,7 +157,7 @@ IsItemClickEnabled="False"
                         <GridView.ItemsPanel>
 
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Orientation="Horizontal" VerticalAlignment="Top" />
+                            <VirtualizingStackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,5,0" />
                         </ItemsPanelTemplate>
                     </GridView.ItemsPanel>
                 </GridView>
