@@ -86,6 +86,20 @@ namespace WeekNumber
 
                     t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileWideBlockAndText02.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
 
+
+                    //var badgeXml = Notifications.BadgeUpdateManager.getTemplateContent(Notifications.BadgeTemplateType.badgeNumber);
+                    //var badgeAttributes = badgeXml.getElementsByTagName("badge");
+                    //badgeAttributes[0].setAttribute("value", "7");
+
+                    //BadgeNumericNotificationContent badgeContent = new BadgeNumericNotificationContent(6);
+                    //var badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
+                    //badgeXml.DocumentElement.SetAttribute("value","3");
+                    //badgeAttributes[0].NodeValue = 7;
+                
+                //LockScreenUpdateManager
+
+                  //  BadgeUpdateManager.CreateBadgeUpdaterForApplication().Update(new BadgeNotification(badgeXml));
+
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter

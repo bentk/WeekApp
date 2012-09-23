@@ -1,7 +1,7 @@
 ﻿using WeekNumber.Data;
 using System;
 using System.Collections.Generic;
-using Windows.UI.Popups;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -51,19 +51,6 @@ namespace WeekNumber
 
         private void ItemGridViewLoaded1(object sender, RoutedEventArgs e)
         {
-            SelectToday();
-        }
-
-        private void SelectToday()
-        {
-            foreach (var item in itemGridView.Items)
-            {
-                var day = item as BindableDay;
-                if (day != null && day.IsToday)
-                {
-                    itemGridView.SelectedItem = day;
-                }
-            }
         }
 
         private void ItemListViewLoaded(object sender, RoutedEventArgs e)
@@ -98,8 +85,16 @@ namespace WeekNumber
         {
             var week = e.AddedItems[0] as BindableWeek;
             SetWeek(week);
-            
-SetItemSize();
+            SetListView(week);
+            SetItemSize();
+        }
+
+        private void SetListView(BindableWeek week)
+        {
+            if (week != null)
+            {
+                itemListView.ItemsSource = SampleDataSource.GetWeek(week.WeekNumber).Days;
+            }
         }
 
         private void SetWeek(BindableWeek week)
@@ -107,16 +102,6 @@ SetItemSize();
             if (week != null)
             {
                 itemGridView.ItemsSource = SampleDataSource.GetWeek(week.WeekNumber).Days;
-                foreach (var item in weeksGridView.Items)
-                {
-                    var week2 = item as BindableWeek;
-                    if (week2 != null && week.WeekNumber == week2.WeekNumber)
-                    {
-                        weeksGridView.SelectedItem = item;
-                        break;
-                    }
-                }
-                SelectToday();
             }
         }
 
