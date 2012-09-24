@@ -30,7 +30,10 @@ namespace WeekNumber.Data
             WeekNumber = s.GetWeekNumberFromDate(day);
             Days = new ObservableCollection<BindableDay>(s.GetDaysInCurrentWeek(day).Select(d=> new BindableDay(d)).ToList());
             Year = day.Year;
-        }       
+            MonthName = s.GetMonthString(day);
+        }
+
+        public string MonthName{get; set; }
 
         private int _gridSize = 150;
         public int GridSizeWeek
@@ -47,12 +50,14 @@ namespace WeekNumber.Data
 
         public string Date
         {
-            get {
+            get
+            {
                 var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
                 return new WeekCalendar.Week(culture).GetYearMonthAndDayFormatted(DateTime.Today);
             }
 
         }
+        
     }
 
     public class BindableDay : Common.BindableBase

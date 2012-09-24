@@ -20,8 +20,9 @@ namespace WeekNumber
             
             DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks();
             DefaultViewModel["Items"] = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber).Days;
-            DefaultViewModel["WeekNumber"] = SampleDataSource.ThisBindableWeek.WeekNumber;
             DefaultViewModel["Date"] = SampleDataSource.ThisBindableWeek.Date;
+            DefaultViewModel["Month"] = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber).MonthName;
+
             ((ListViewBase)semanticZoom.ZoomedOutView).ItemsSource = DefaultViewModel["Groups"];
             foreach (var item in flipView.Items)
             {
@@ -87,11 +88,17 @@ namespace WeekNumber
         {
             
             var week = e.AddedItems[0] as BindableWeek;
-            week.SelectedWeek = week.WeekNumber;
-            var removedWeek = e.RemovedItems[0] as BindableWeek;
-            removedWeek.SelectedWeek=week.WeekNumber;
+            if (week != null)
+            {
+                week.SelectedWeek = week.WeekNumber;
+                var removedWeek = e.RemovedItems[0] as BindableWeek;
+                if (removedWeek != null)
+                    removedWeek.SelectedWeek = week.WeekNumber;
+
                 SetWeek(week);
-            SetListView(week);
+                DefaultViewModel["Month"] = SampleDataSource.GetWeek(week.WeekNumber).MonthName;
+                SetListView(week);
+            }
             SetItemSize();
         }
 
@@ -179,7 +186,6 @@ namespace WeekNumber
                 if(week != null)
                 {
                     flipView.SelectedIndex = week.WeekNumber - 1;
-//                    SetWeek(week);
                 }
             }
 
@@ -188,6 +194,17 @@ namespace WeekNumber
         private void Grid_SizeChanged_1(object sender, SizeChangedEventArgs e)
         {
             itemGridView.Width = ActualWidth;
+        }
+
+        private void Date_OnClick(object sender, RoutedEventArgs e)
+        {
+
+            var week = SampleDataSource.GetWeek(SampleDataSource.ThisBindableWeek.WeekNumber);
+            SetWeek(week);
+            DefaultViewModel["Month"] = SampleDataSource.GetWeek(week.WeekNumber).MonthName;
+            SetListView(week);
+            flipView.SelectedItem = week;
+            
         }
     }
 }

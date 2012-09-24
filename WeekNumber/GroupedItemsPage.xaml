@@ -18,18 +18,18 @@
 
                 
         <DataTemplate x:Key="Standard80ItemTemplate">
-            <Grid Margin="6">
+            <Grid Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
-                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="60" Height="60">
+                <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="70" Height="70" Padding="0,0,0,0">
                     <TextBlock Text="{Binding DayNumber}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Border>
-                <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                    <TextBlock Text="{Binding Name}" Style="{StaticResource ItemTextStyle}" FontSize="25" MaxHeight="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
+                
+<TextBlock Text="{Binding Name}" Grid.Column="1" FontSize="30" VerticalAlignment="Center" Margin="10,0,0,0"  HorizontalAlignment="Center"/>
+                
                 <Ellipse Stroke="Red" StrokeThickness="6" Width="70" Height="70" Visibility="{Binding IsToday, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </DataTemplate>
@@ -73,7 +73,7 @@
     <Grid Style="{StaticResource LayoutRootStyle}" SizeChanged="Grid_SizeChanged_1">
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="250"/>
+            <RowDefinition Height="280"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -84,32 +84,36 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <Grid Margin="6,0,0,0">
-
-            <FlipView
+            <StackPanel Margin="10,0,0,0">
+                <Grid VerticalAlignment="Top" Height="80">
+                    <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}" />
+                    <Button x:Name="date" Width="310" Click="Date_OnClick" Content="{Binding Date, Mode=TwoWay}" BorderThickness="0" Padding="0" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" 
+                            Margin="0,0,0,0" HorizontalAlignment="Left"/>
+                    <!--Ellipse PointerEntered="Ellipse_PointerEntered_1" Stroke="Red" StrokeThickness="3" HorizontalAlignment="Left" Width="50" Height="50" Margin="12,16,0,0"/-->
+                </Grid>
+                <FlipView
             x:Name="flipView"
             TabIndex="1"
             Grid.Row="1"
-                
-                Margin="5,10,0,0"
+            Margin="0,-15,0,0"
             ItemsSource="{Binding Source={StaticResource weeksInYearViewSource}}"
             SelectionChanged="FlipViewSelectionChanged" Width="310" Height="250">
-                <FlipView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                            <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}"  VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource PageHeaderTextStyle}" FontSize="140" Margin="5,30,0,0"/>
-                        </Border>
-                    </DataTemplate>
-                </FlipView.ItemTemplate>
-                
-            </FlipView>
-                <Grid VerticalAlignment="Top" Height="50">
-                    <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}" Margin="10,-4,0,-4"/>
-                    <TextBlock x:Name="date" Text="{Binding Date}" FontSize="30" Foreground="{StaticResource ApplicationSecondaryForegroundThemeBrush}" Margin="20,24,0,-10" HorizontalAlignment="Left"/>
-                </Grid>
-
-                            
-            </Grid>
+                    <FlipView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                                <TextBlock x:Name="pageTitle" Text="{Binding WeekNumber}"  
+                                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                                           Style="{StaticResource PageHeaderTextStyle}" 
+                                           FontSize="140" Margin="0,0,0,0"/>
+                                
+                            </Border>
+                        </DataTemplate>
+                    </FlipView.ItemTemplate>
+                </FlipView>
+                <Border Width="306" Background="Black" Margin="0,-105,0,0" Height="80">
+<TextBlock Text="{Binding Month}" Opacity="1" FontSize="30" Width="auto" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" Margin="0,0,0,10"/>
+</Border>
+            </StackPanel>
         </Grid>
         <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="SemanticZoomViewChangeCompleted1">
             <SemanticZoom.ZoomedOutView>
@@ -137,7 +141,7 @@ IsItemClickEnabled="False"
             </SemanticZoom.ZoomedOutView>
             <SemanticZoom.ZoomedInView>
                 <GridView x:Name="itemGridView" 
-                Margin="10,20,107,320"
+                Margin="10,20,107,220"
                 ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
                 ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
                 HorizontalAlignment="Stretch"
@@ -168,15 +172,15 @@ IsItemClickEnabled="False"
             x:Name="itemListView"
             Grid.Row="1"
             Visibility="Collapsed"
-            Margin="0,20,0,0"
-            Padding="10,0,0,60"
+            Margin="12,0,-16,0"
+            Padding="0,0,0,0"
             ItemsSource="{Binding Source={StaticResource thisWeekViewSource}}"
             ItemTemplate="{StaticResource Standard80ItemTemplate}"
             SelectionMode="None"
             IsItemClickEnabled="True"
             IsEnabled="True"
             Loaded="ItemListViewLoaded">
-            <ListView.GroupStyle>
+            <!--ListView.GroupStyle>
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
@@ -190,7 +194,7 @@ IsItemClickEnabled="False"
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
-            </ListView.GroupStyle>
+            </ListView.GroupStyle-->
         </ListView>
  
         <VisualStateManager.VisualStateGroups>
@@ -221,6 +225,7 @@ IsItemClickEnabled="False"
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedBackButtonStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
+                        
                         <!--ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
                         </ObjectAnimationUsingKeyFrames-->

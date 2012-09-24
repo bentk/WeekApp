@@ -55,5 +55,25 @@ namespace WeekCalendar
         {
             return today.ToString("D", _dateTimeFormat);
         }
+
+        public string GetMonthString(DateTime today)
+        {
+            string monthName = string.Empty;
+            var d = GetDaysInCurrentWeek(today);
+            foreach (var dateTime in d)
+            {
+
+                var month = _dateTimeFormat.GetMonthName(dateTime.Month);
+                if (string.IsNullOrEmpty(monthName))
+                    monthName = month;
+                else if (monthName != month)
+                {
+                    monthName += "/" + month;
+                    break;
+                }
+               
+            }
+            return monthName;
+        }
     }
 }
