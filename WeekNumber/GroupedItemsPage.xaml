@@ -26,9 +26,7 @@
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="70" Height="60" Padding="0,0,0,0">
                     <TextBlock Text="{Binding DayNumber}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </Border>
-                
 <TextBlock Text="{Binding Name}" Grid.Column="1" FontSize="26" VerticalAlignment="Center" Margin="10,0,0,0"  HorizontalAlignment="Center"/>
-                
                 <Ellipse Stroke="Red" StrokeThickness="6" Width="70" Height="60" Visibility="{Binding IsToday, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </DataTemplate>
