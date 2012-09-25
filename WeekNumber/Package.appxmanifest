@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="33584bentapps.WeekNumber" Publisher="CN=07304242-23E5-41F1-9B3E-B15DB8B4DC0E" Version="1.0.0.1" />
+  <Identity Name="33584bentapps.WeekNumber" Publisher="CN=07304242-23E5-41F1-9B3E-B15DB8B4DC0E" Version="1.0.0.2" />
   <Properties>
     <DisplayName>Week Number</DisplayName>
-    <PublisherDisplayName>Bent Kristiansen</PublisherDisplayName>
+    <PublisherDisplayName>bentapps</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>
-    <OSMinVersion>6.2.0</OSMinVersion>
-    <OSMaxVersionTested>6.2.0</OSMaxVersionTested>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
   </Prerequisites>
   <Resources>
     <Resource Language="en" />
