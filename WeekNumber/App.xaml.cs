@@ -6,6 +6,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.System.UserProfile;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -46,6 +47,9 @@ namespace WeekNumber
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
+
+            SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+            
             //TileUpdateManager.CreateTileUpdaterForApplication().
             // Do not repeat app initialization when already running, just ensure that
             // the window is active
@@ -103,7 +107,7 @@ namespace WeekNumber
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
-                if (!rootFrame.Navigate(typeof(GroupedItemsPage), "AllWeeks"))
+                if (!rootFrame.Navigate(typeof(GroupedItemsPage)))
                 {
                     throw new Exception("Failed to create initial page");
                 }
@@ -112,6 +116,24 @@ namespace WeekNumber
             // Place the frame in the current Window and ensure that it is active
             Window.Current.Content = rootFrame;
             Window.Current.Activate();
+        }
+
+        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
+            var about = new SettingsCommand("about", "About", handler =>
+                                                                  {
+                                                                      var settings = new SettingsFlyout();
+                                                                      settings.ShowFlyout(new AboutUserControl());
+                                                                  });
+
+            args.Request.ApplicationCommands.Add(about);
+            var privacy = new SettingsCommand("privacyPolicy", "Privacy Policy", handler =>
+            {
+                var settings = new SettingsFlyout();
+                settings.ShowFlyout(new PrivacyPolicyUserControl());
+            });
+
+            args.Request.ApplicationCommands.Add(privacy);
         }
 
         /// <summary>
@@ -127,5 +149,16 @@ namespace WeekNumber
             await SuspensionManager.SaveAsync();
             deferral.Complete();
         }
+
+        protected override void OnSearchActivated(SearchActivatedEventArgs args)
+        {
+            SearchResultsPage.Activate(args.QueryText);
+            //if (!new Frame().Navigate(typeof(SearchResultsPage), args.QueryText))
+            //{
+              //  throw new Exception("Failed to navigate to page from search");
+            //}
+        }
+
     }
+
 }

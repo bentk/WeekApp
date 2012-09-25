@@ -1,7 +1,7 @@
 ﻿using WeekNumber.Data;
 using System;
 using System.Collections.Generic;
-
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,6 +16,7 @@ namespace WeekNumber
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
+
             flipView.SelectionChanged -= FlipViewSelectionChanged;
             
             DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks();
@@ -34,9 +35,20 @@ namespace WeekNumber
                     break;
                 }
             }
-            flipView.SelectedItem = SampleDataSource.ThisBindableWeek;
+
+          
+                flipView.SelectedItem = SampleDataSource.ThisBindableWeek;
+
             flipView.SelectionChanged += FlipViewSelectionChanged;
             itemGridView.TabIndex = 2;
+            if (string.IsNullOrEmpty(navigationParameter as string) == false)
+            {
+                
+                var weekNumberToShow = int.Parse(navigationParameter as string);
+                flipView.SelectedIndex= weekNumberToShow;
+                flipView.SelectedItem = SampleDataSource.GetWeek(weekNumberToShow);
+            }
+
         }
 
         void HeaderClick(object sender, RoutedEventArgs e)
@@ -134,7 +146,8 @@ namespace WeekNumber
         private void SetItemSize()
         {
             var itemSize = ((int) (ActualWidth - 200)/7);
-
+            if(itemSize <10)
+                return;
             foreach (var item in itemGridView.Items)
             {
                 var gridItem = item as BindableDay;
