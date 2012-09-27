@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="33584bentapps.WeekNumber" Publisher="CN=07304242-23E5-41F1-9B3E-B15DB8B4DC0E" Version="1.0.0.2" />
+  <Identity Name="33584bentapps.WeekNumber" Publisher="CN=07304242-23E5-41F1-9B3E-B15DB8B4DC0E" Version="1.0.0.3" />
   <Properties>
     <DisplayName>Week Number</DisplayName>
     <PublisherDisplayName>bentapps</PublisherDisplayName>
@@ -16,7 +16,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="WeekNumber.App">
-      <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="This application shows the Number of the Current Week, and can be used to navigate in the weeks in a year." ForegroundText="light" BackgroundColor="#2E2E2E">
+      <VisualElements DisplayName="Week Number" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="This application shows the Number of the Current Week, and can be used to navigate in the weeks of the current year. It is also possible to search for a week number using standard Store Application Search feature." ForegroundText="light" BackgroundColor="#2E2E2E">
         <DefaultTile ShowName="noLogos" WideLogo="Assets\WideLogo.png" ShortName="Week Number" />
         <SplashScreen Image="Assets\SplashScreen2.png" />
         <InitialRotationPreference>

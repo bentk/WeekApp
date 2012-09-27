@@ -67,7 +67,7 @@
         * Row 0 contains the back button and page title
         * Row 1 contains the rest of the page layout
     -->
-    <Grid Style="{StaticResource LayoutRootStyle}" SizeChanged="Grid_SizeChanged_1">
+    <Grid Style="{StaticResource LayoutRootStyle}" SizeChanged="GridSizeChanged1">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="280"/>
@@ -112,10 +112,10 @@
 </Border>
             </StackPanel>
         </Grid>
-        <SemanticZoom x:Name="semanticZoom" Grid.Row="1" ViewChangeCompleted="SemanticZoomViewChangeCompleted1">
+        <SemanticZoom x:Name="semanticZoom" Grid.Row="1">
             <SemanticZoom.ZoomedOutView>
             <GridView
-IsItemClickEnabled="False"
+                IsItemClickEnabled="False"
                 x:Name="weeksGridView"
                 AutomationProperties.AutomationId="ItemGridView"
                 Grid.Row="1"
@@ -145,8 +145,7 @@ IsItemClickEnabled="False"
                 SizeChanged="ItemGridViewSizeChanged"
                 IsItemClickEnabled="False"
                 SelectionMode="None" 
-                Loaded="ItemGridViewLoaded1"
-                          Height="210"
+                Height="210"
                 RenderTransformOrigin="0.5,0.5" 
                 UseLayoutRounding="False"
                 VerticalAlignment="Top"

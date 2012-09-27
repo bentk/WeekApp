@@ -5,13 +5,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight="600"
+    d:DesignWidth="350">
     
-
-        <StackPanel Background="#FF580101">
-            <TextBlock Text="Hello World App" FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="26.667" />
-            <TextBlock Text="Trial Version" FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="18" />
-        </StackPanel>
-
+    <Grid>
+        <StackPanel Background="White">
+            <Grid Background="#2E2E2E" Height="80">
+            <TextBlock Text="About" Margin="84,34,0,0"  FontFamily="Segoe UI Light" FontWeight="SemiBold" FontSize="28" />
+            </Grid>
+            <TextBlock Text="{StaticResource AppName}" Foreground="#2E2E2E" Margin="35,10,0,0" FontFamily="Segoe UI Light" FontWeight="SemiBold" FontSize="28"/>
+            <TextBlock Text="{StaticResource AppDescription}"
+                       Margin="35,10,0,0" 
+                       Width="315" TextWrapping="Wrap" Height="600" HorizontalAlignment="Left" Foreground="#2E2E2E"  FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="18" />
+    </StackPanel>
+        <Border >
+<Button Background="Blue" Foreground="red" x:Name="backButton" Click="GoBack" FontSize="50" 
+        Style="{StaticResource BackButtonStyle}" Margin="35,26" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+</Border></Grid>
 </UserControl>

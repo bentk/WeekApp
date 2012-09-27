@@ -18,7 +18,8 @@
 
             <!-- Application-specific resources -->
 
-            <x:String x:Key="AppName">WeekNumber</x:String>
+            <x:String x:Key="AppName">Week Number</x:String>
+            <x:String x:Key="AppDescription">This application shows the Number of the Current Week, and can be used to navigate in the weeks of the current year. It is also possible to search for a week number using standard Store Application Search feature.</x:String>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
