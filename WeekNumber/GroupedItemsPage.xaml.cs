@@ -1,6 +1,10 @@
-﻿using WeekNumber.Data;
+﻿using Microsoft.Advertising.WinRT.UI;
+using WeekNumber.Common;
+using WeekNumber.Data;
 using System;
 using System.Collections.Generic;
+using Windows.Graphics.Display;
+using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,7 +19,7 @@ namespace WeekNumber
 
         protected override void LoadState(Object navigationParameter, Dictionary<String, Object> pageState)
         {
-
+            SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
             flipView.SelectionChanged -= FlipViewSelectionChanged;
             
             DefaultViewModel["Groups"] = SampleDataSource.GetAllWeeks();
@@ -49,7 +53,24 @@ namespace WeekNumber
             }
 
         }
+        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
+        {
 
+            var about = new SettingsCommand("about", "About", handler =>
+            {
+                var settings = new SettingsFlyout();
+                settings.ShowFlyout(new AboutUserControl(Ad));
+            });
+
+            args.Request.ApplicationCommands.Add(about);
+            var privacy = new SettingsCommand("privacyPolicy", "Privacy Policy", handler =>
+            {
+                var settings = new SettingsFlyout();
+                settings.ShowFlyout(new PrivacyPolicyUserControl(Ad));
+            });
+            
+            args.Request.ApplicationCommands.Add(privacy);
+        }
         private void ItemListViewLoaded(object sender, RoutedEventArgs e)
         {
             foreach (var item in itemListView.Items)
@@ -118,7 +139,7 @@ namespace WeekNumber
 
         private void SetItemSize()
         {
-            var itemSize = ((int) (ActualWidth - 200)/7);
+            var itemSize = ((int) (ActualWidth-130)/7);
             if(itemSize <10)
                 return;
 
@@ -135,7 +156,11 @@ namespace WeekNumber
         private void WeeksGridView_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             var index = flipView.SelectedIndex;
-            var itemSize = ((int) (weeksGridView.ActualWidth)/15);
+            var divider = 15;
+            if (DisplayProperties.CurrentOrientation == DisplayOrientations.Portrait)
+                divider = 7;
+            
+            var itemSize = ((int) (weeksGridView.ActualWidth)/divider);
 
             foreach (var item in weeksGridView.Items)
             {

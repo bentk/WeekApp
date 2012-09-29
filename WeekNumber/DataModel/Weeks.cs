@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Collections.ObjectModel;
+using WeekCalendar;
 using Windows.System.UserProfile;
 
 namespace WeekNumber.Data
@@ -18,15 +19,25 @@ namespace WeekNumber.Data
         {
             get
             {
-                var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
-                return WeekNumber == new WeekCalendar.Week(culture).GetWeekNumberFromDate(DateTime.Today);
+                //var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+                //int weekNumber;
+                //try
+                //{
+                //    weekNumber = new Week(culture).GetWeekNumberFromDate(DateTime.Today);   
+                //}
+                //catch
+                //{
+
+                //    weekNumber = new Week(CultureInfo.CurrentCulture.ToString()).GetWeekNumberFromDate(DateTime.Today);
+                //}
+                return WeekNumber == new Week(GlobalizationPreferences.Languages[0]).GetWeekNumberFromDate(DateTime.Today);
             }
         }
 
         public BindableWeek(DateTime day)
         {
-            var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
-            var s = new WeekCalendar.Week(culture);
+
+            var s = new Week(GlobalizationPreferences.Languages[0]);
             WeekNumber = s.GetWeekNumberFromDate(day);
             Days = new ObservableCollection<BindableDay>(s.GetDaysInCurrentWeek(day).Select(d=> new BindableDay(d)).ToList());
             Year = day.Year;
@@ -52,8 +63,8 @@ namespace WeekNumber.Data
         {
             get
             {
-                var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
-                return new WeekCalendar.Week(culture).GetYearMonthAndDayFormatted(DateTime.Today);
+                //var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
+                return new Week(GlobalizationPreferences.Languages[0]).GetYearMonthAndDayFormatted(DateTime.Today);
             }
 
         }
@@ -68,8 +79,7 @@ namespace WeekNumber.Data
         {
             get
             {
-                var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
-                var dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
+                var dateTimeFormat = new CultureInfo(GlobalizationPreferences.Languages[0]).DateTimeFormat;
                 return dateTimeFormat.GetDayName(_dateTime.DayOfWeek);
             }
         }
@@ -104,7 +114,7 @@ namespace WeekNumber.Data
         private static SampleDataSource _sampleDataSource = new SampleDataSource();
 
         private ObservableCollection<BindableWeek> _allWeeks = new ObservableCollection<BindableWeek>();
-
+                
         public ObservableCollection<BindableWeek> AllWeeks
         {
             get { return _allWeeks; }

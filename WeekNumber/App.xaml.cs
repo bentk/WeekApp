@@ -6,7 +6,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.System.UserProfile;
-using Windows.UI.ApplicationSettings;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -45,10 +44,10 @@ namespace WeekNumber
         /// search results, and so forth.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
 
-            SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+            //SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
             
             //TileUpdateManager.CreateTileUpdaterForApplication().
             // Do not repeat app initialization when already running, just ensure that
@@ -59,21 +58,13 @@ namespace WeekNumber
                 return;
             }
 
-            // Create a Frame to act as the navigation context and associate it with
-            // a SuspensionManager key
             var rootFrame = new Frame();
             SuspensionManager.RegisterFrame(rootFrame, "AppFrame");
 
-            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-            {
-                // Restore the saved session state only when appropriate
-                await SuspensionManager.RestoreAsync();
-            }
-
             if (rootFrame.Content == null)
             {
-                var culture = GlobalizationPreferences.Languages[0] + "-" + GlobalizationPreferences.HomeGeographicRegion;
-                var week = new Week(culture);
+                var lang = GlobalizationPreferences.Languages[0];
+                var week = new Week(lang);
                 
                 var t = TileUpdateManager.CreateTileUpdaterForApplication();
 
@@ -88,7 +79,7 @@ namespace WeekNumber
                 var scheduledTileWide = new ScheduledTileNotification(xml, DateTime.Now.AddSeconds(1));
                 t.AddToSchedule(scheduledTileWide);
 
-                    t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileWideBlockAndText02.aspx?culture=" + culture), PeriodicUpdateRecurrence.HalfHour);
+                t.StartPeriodicUpdate(new Uri("http://weeknumber.apphb.com/TileWideBlockAndText02.aspx?culture=" + lang), PeriodicUpdateRecurrence.HalfHour);
 
 
                     //var badgeXml = Notifications.BadgeUpdateManager.getTemplateContent(Notifications.BadgeTemplateType.badgeNumber);
@@ -118,23 +109,7 @@ namespace WeekNumber
             Window.Current.Activate();
         }
 
-        private void OnCommandsRequested(SettingsPane sender, SettingsPaneCommandsRequestedEventArgs args)
-        {
-            var about = new SettingsCommand("about", "About", handler =>
-                                                                  {
-                                                                      var settings = new SettingsFlyout();
-                                                                      settings.ShowFlyout(new AboutUserControl());
-                                                                  });
-
-            args.Request.ApplicationCommands.Add(about);
-            var privacy = new SettingsCommand("privacyPolicy", "Privacy Policy", handler =>
-            {
-                var settings = new SettingsFlyout();
-                settings.ShowFlyout(new PrivacyPolicyUserControl());
-            });
-
-            args.Request.ApplicationCommands.Add(privacy);
-        }
+  
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved

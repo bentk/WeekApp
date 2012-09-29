@@ -6,11 +6,18 @@ namespace WeekCalendar
 {
     public class Week
     {
-        private DateTimeFormatInfo _dateTimeFormat;
+        private readonly DateTimeFormatInfo _dateTimeFormat;
 
         public Week(string culture)
-        {   
-            _dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
+        {
+            try
+            {   
+                _dateTimeFormat = new CultureInfo(culture).DateTimeFormat;
+            }
+            catch
+            {
+                _dateTimeFormat = CultureInfo.CurrentUICulture.DateTimeFormat;
+            }
         }
 
 

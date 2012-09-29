@@ -31,7 +31,7 @@ namespace WeekCalendarTest
         [TestMethod]
         public void GetDaysInCurrentWeekFromDate20120912()
         {
-            var daysInCurrentWeek = new WeekCalendar.Week("nb-NO").GetDaysInCurrentWeek(new DateTime(2012, 9, 12));
+            var daysInCurrentWeek = new WeekCalendar.Week("nb").GetDaysInCurrentWeek(new DateTime(2012, 9, 12));
             Assert.AreEqual(DateTimeFormatInfo.CurrentInfo.FirstDayOfWeek, daysInCurrentWeek[0].DayOfWeek);
         }
 

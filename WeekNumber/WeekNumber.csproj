@@ -9,7 +9,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WeekNumber</RootNamespace>
     <AssemblyName>WeekNumber</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <DefaultLanguage>
+    </DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PackageCertificateKeyFile>WeekNumber_StoreKey.pfx</PackageCertificateKeyFile>
@@ -136,7 +137,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="Common\ReadMe.txt" />
-    <None Include="MultilingualResources\Pseudo Language %28Pseudo%29.xlf" />
     <None Include="WeekNumber_StoreKey.pfx" />
     <None Include="WeekNumber_TemporaryKey.pfx" />
   </ItemGroup>
@@ -185,6 +185,11 @@
       <Project>{46bfb334-00f1-4aed-bb8c-6f4d625e0008}</Project>
       <Name>WeekCalendar</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="MSAdvertisingXaml, Version=6.1">
+      <Name>Microsoft Advertising SDK for Windows 8 %28Xaml%29</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
