@@ -204,7 +204,7 @@ namespace WeekNumber
 
         private void GridSizeChanged1(object sender, SizeChangedEventArgs e)
         {
-            itemGridView.Width = ActualWidth;
+            //itemGridView.Width = ActualWidth;
         }
 
         private void Date_OnClick(object sender, RoutedEventArgs e)

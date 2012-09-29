@@ -33,29 +33,29 @@
         </DataTemplate>
 
         <DataTemplate x:Key="Week250x250ItemTemplate">
-            <Grid Width="{Binding GridSizeWeek, Mode=TwoWay}" Tapped="WeekTapped" Height="{Binding GridSizeWeek, Mode=TwoWay}">
+            <Grid Width="{Binding GridSizeWeek, Mode=TwoWay}" MinWidth ="80" MinHeight="80" Tapped="WeekTapped" Height="{Binding GridSizeWeek, Mode=TwoWay}">
                 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
                     <TextBlock Text="{Binding WeekNumber}" Style="{StaticResource HeaderTextStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border>
-                <Ellipse Stroke="Red" StrokeThickness="5" Width="82" Height="82" Visibility="{Binding IsCurrentWeek, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <Ellipse Stroke="Red" StrokeThickness="5" Width="78" Height="78" Visibility="{Binding IsCurrentWeek, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </DataTemplate>
         <!-- Grid-appropriate 250 pixel square item template as seen in the GroupedItemsPage and ItemsPage -->
         <DataTemplate x:Key="Standard250x250ItemTemplate">
-            <Grid x:Name="ItemGrid" Width="{Binding GridSize, Mode=TwoWay}" MinHeight="180" MinWidth="130" Height="{Binding GridSize, Mode=TwoWay}" Tapped="DayTapped" Margin="-1,0,-1,0">
+            <Grid x:Name="ItemGrid" MinHeight="168" MinWidth="127" Tapped="DayTapped" Width="{Binding GridSize, Mode=TwoWay}" Height="{Binding GridSize, Mode=TwoWay}"  Margin="-1,0,-1,0">
                 <!--Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
                     <TextBlock Text="{Binding DayNumber}" FontSize="100" HorizontalAlignment    ="Center"/>
                 </Border-->
                 <StackPanel  Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}" Margin="2,0,0,0">
 <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
-                    <TextBlock Text="{Binding DayNumber}" FontSize="100" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding DayNumber}" FontSize="90" HorizontalAlignment="Center"/>
 
                 </Border>
                     <Border Background="Black">
-                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" FontSize="25" 
+                    <TextBlock Text="{Binding Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" FontSize="20" 
                                HorizontalAlignment="Center" Style="{StaticResource TitleTextStyle}" VerticalAlignment="Center" Height="55"  Margin="0,14"/>
 </Border>
                 </StackPanel>
-<Ellipse Stroke="Red" StrokeThickness="8" Width="140" Height="140" VerticalAlignment="Top" Visibility="{Binding IsToday, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+<Ellipse Stroke="Red" StrokeThickness="6" Width="124" Height="124" VerticalAlignment="Top" Visibility="{Binding IsToday, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
                             
             </Grid>
@@ -63,7 +63,7 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Style="{StaticResource LayoutRootStyle}" SizeChanged="GridSizeChanged1" >
+    <Grid Style="{StaticResource LayoutRootStyle}" SizeChanged="GridSizeChanged1">
         <Grid.RowDefinitions>
             <RowDefinition Height="280"/>
             <RowDefinition Height="*"/>
@@ -162,7 +162,7 @@
                 SizeChanged="ItemGridViewSizeChanged"
                 IsItemClickEnabled="False"
                 SelectionMode="None" 
-                Height="200"
+                Height="190"
                 RenderTransformOrigin="0.5,0.5" 
                 UseLayoutRounding="False"
                           Padding="4"
